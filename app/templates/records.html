@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+
+{% block main-content %}
+
+
+<div class="container mt-5">
+<div class="container">
+  <h3 class="mb-3">Farm Data</h3>
+<div class = "row">
+
+ <!-- Date Search Filters -->
+  <div class="row mt-4 p-3">
+    <div class="col-md-3">
+      <label for="fromDate" class="form-label">From Date</label>
+      <input type="date" id="fromDate" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <label for="toDate" class="form-label">To Date</label>
+      <input type="date" id="toDate" class="form-control">
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <button class="btn btn-success w-100" onclick="filterByDate()">🔍 Search</button>
+    </div>
+  </div>
+  
+  
+
+  <!-- Data Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover" id="farmTable">
+      <thead class="table-dark">
+        <tr>
+          <th>Date</th>
+          <th>Avg Temp (°C)</th>
+          <th>Avg Water (L)</th>
+          <th>Avg Pesticide (ml)</th>
+          <th>Seed Variety</th>
+          <th>Notes</th>
+            <th>Activity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-09-10</td>
+          <td>26</td>
+          <td>15</td>
+          <td>5</td>
+          <td>Tomato Hybrid A</td>
+          <td>Good growth</td>
+          <td><button type="button" class="btn btn-primary">update</button> 
+          <button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+        <tr>
+          <td>2025-09-11</td>
+          <td>28</td>
+          <td>18</td>
+          <td>4</td>
+          <td>Pepper Green</td>
+          <td>Needs watering</td>
+           <td><button type="button" class="btn btn-primary">update</button> 
+          <button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+        <tr>
+          <td>2025-09-12</td>
+          <td>27</td>
+          <td>16</td>
+          <td>6</td>
+          <td>Corn Yellow</td>
+          <td>Healthy</td>
+           <td><button type="button" class="btn btn-primary">update</button> 
+          <button type="button" class="btn btn-danger">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- Download Button -->
+  <div class="mb-3">
+    <button class="btn btn-success" onclick="downloadTable()">⬇ Download CSV</button>
+  </div>
+
+ </div>
+  </div>
+
+
+<br/><br/>
+{% endblock main-content %}
+

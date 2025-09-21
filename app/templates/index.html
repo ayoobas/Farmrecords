@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+
+{% block main-content %}
+
+
+<div class="container mt-5">
+<div class="container border-bottom shadow mt-5 p-5">
+  <h3 class="mb-4">Farm Input Form</h3>
+  <form>
+    <div class="row g-3">
+      <!-- Avg Temp -->
+      <div class="col-md-6">
+        <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
+        <input type="number" class="form-control" id="avg_temp" name="avg_temp" placeholder="Enter avg temp">
+      </div>
+
+      <!-- Avg Water -->
+      <div class="col-md-6">
+        <label for="avg_water" class="form-label">Average Water (L)</label>
+        <input type="number" class="form-control" id="avg_water" name="avg_water" placeholder="Enter avg water">
+      </div>
+
+      <!-- Avg Pesticide -->
+      <div class="col-md-6">
+        <label for="avg_pesticide" class="form-label">Average Pesticide (ml)</label>
+        <input type="number" class="form-control" id="avg_pesticide" name="avg_pesticide" placeholder="Enter avg pesticide">
+      </div>
+
+      <!-- Seed Variety -->
+      <div class="col-md-6">
+        <label for="seed_variety" class="form-label">Seed Variety</label>
+        <input type="text" class="form-control" id="seed_variety" name="seed_variety" placeholder="Enter seed variety">
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+
+
+<br/><br/>
+{% endblock main-content %}
+
