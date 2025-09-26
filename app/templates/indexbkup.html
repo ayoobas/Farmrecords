@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+
+
+{% block main-content %}
+
+
+<div class="container mt-5">
+<div class="container border-bottom shadow mt-5 p-5">
+  <h3 class="mb-4">Farm Input Form</h3>
+  <form method = "POST">
+    <div class="row g-3">
+      <!-- Avg Temp -->
+      <div class="col-md-6">
+        <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
+        <input type="number" class="form-control" id="avg_temp" name="avg_temp"  required placeholder="Enter avg temp">
+      </div>
+
+      <!-- Avg Water -->
+      <div class="col-md-6">
+        <label for="avg_water" class="form-label">Average Water (L)</label>
+        <input type="number" class="form-control" id="avg_water" name="avg_water" required  placeholder="Enter avg water">
+      </div>
+         <!-- Pesticide Name -->
+      <div class="col-md-6">
+        <label for="avg_pesticide" class="form-label">Pesticide Name</label>
+         <select class="form-select" id="seed_variety" name="seed_variety">
+    <option selected disabled>Choose seed variety</option>
+    <option value="Titan">Titan</option>
+    <option value="Thunder">Thunder</option>
+  </select>
+      </div>
+
+      <!-- Avg Pesticide -->
+      <div class="col-md-6">
+        <label for="avg_pesticide" class="form-label">Average Pesticide (ml)</label>
+        <input type="number" class="form-control" id="avg_pesticide" required  name="avg_pesticide" placeholder="Enter avg pesticide">
+      </div>
+
+        <!-- fertilizer Name -->
+      <div class="col-md-6">
+        <label for="avg_fertilizer" class="form-label">Fertilizer Name</label>
+         <select class="form-select" id="fertilizer_type" name="fertilizer_type">
+    <option selected disabled>Choose fertilizer</option>
+    <option value="Poultry">Poultry</option>
+    <option value="Urea Fertilizer">Urea Fertilizer</option>
+    <option value="NPK15-15-15">NPK15-15-15</option>
+  </select>
+      </div>
+
+   <!-- Avg Fertilizer -->
+      <div class="col-md-6">
+        <label for="avg_fertilizer" class="form-label">Average Fertilizer (ml)</label>
+        <input type="number" class="form-control" id="avg_fertilizer" required  name="avg_fertilizer" placeholder="Enter avg fertilizer">
+      </div>
+
+      <!-- Seed Variety -->
+      <div class="col-md-6">
+        <label for="seed_variety" class="form-label">Seed Variety</label>
+        <input type="text" class="form-control" id="seed_variety" required name="seed_variety" placeholder="Enter seed variety">
+      </div>
+
+          <!-- Daily Observation -->
+    <div class="col-12">
+      <label for="daily_observation" class="form-label">Daily Observation</label>
+      <textarea class="form-control" id="daily_observation" required name="daily_observation" rows="4" placeholder="Write your observation here..."></textarea>
+    </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+
+
+<br/><br/>
+{% endblock main-content %}
+

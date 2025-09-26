@@ -1,4 +1,4 @@
-{% extends 'app/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% block title %}Category{% endblock title %}
 
@@ -8,7 +8,8 @@
 <div class="col-sm-4 col-md-4 offset-sm-4">
 <h3>Login</h3>
 <hr>
-<form action="{% url 'login' %}" method ="POST" novalidate class="shadow p-5">
+{% comment %} {% url 'login' %} {% endcomment %}
+<form action="#" method ="POST" novalidate class="shadow p-5">
 {% csrf_token %}
 {% if form.non_field_errors %}
          {% for error in form.non_field_errors %}
@@ -37,7 +38,8 @@
 
 <input type = "submit" class = "btn btn-primary mt-4" value = "Login">
 <div class = "text-center text-primary fw-bold"><small>New User ? 
-<a href = "{% url 'customerregistration' %}" class = "text-danger">Create an Account</a></small>
+{% comment %} {% url 'customerregistration' %} {% endcomment %}
+<a href = "#" class = "text-danger">Create an Account</a></small>
 
 </div>
      

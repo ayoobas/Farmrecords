@@ -9,32 +9,65 @@
 <div class="container mt-5">
 <div class="container border-bottom shadow mt-5 p-5">
   <h3 class="mb-4">Farm Input Form</h3>
-  <form>
-    <div class="row g-3">
-      <!-- Avg Temp -->
-      <div class="col-md-6">
-        <label for="avg_temp" class="form-label">Average Temperature (°C)</label>
-        <input type="number" class="form-control" id="avg_temp" name="avg_temp" placeholder="Enter avg temp">
+  <form method = "POST">
+
+  {% csrf_token %}
+  <div class="row g-3">
+{% comment %} The comment start here {% endcomment %}
+
+  {% for field in form %}
+          <div class="col-md-6">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <div class="text-danger small">{{ field.errors }}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
       </div>
 
-      <!-- Avg Water -->
-      <div class="col-md-6">
-        <label for="avg_water" class="form-label">Average Water (L)</label>
-        <input type="number" class="form-control" id="avg_water" name="avg_water" placeholder="Enter avg water">
-      </div>
+{% comment %} The comment ends {% endcomment %}
 
-      <!-- Avg Pesticide -->
-      <div class="col-md-6">
-        <label for="avg_pesticide" class="form-label">Average Pesticide (ml)</label>
-        <input type="number" class="form-control" id="avg_pesticide" name="avg_pesticide" placeholder="Enter avg pesticide">
-      </div>
 
-      <!-- Seed Variety -->
-      <div class="col-md-6">
-        <label for="seed_variety" class="form-label">Seed Variety</label>
-        <input type="text" class="form-control" id="seed_variety" name="seed_variety" placeholder="Enter seed variety">
-      </div>
+    <div class="col-md-6">
+      {{ form.avg_temp.label_tag }}
+      {{ form.avg_temp }}
     </div>
+    <div class="col-md-6">
+      {{ form.avg_water.label_tag }}
+      {{ form.avg_water }}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.pesticide_name.label_tag }}
+      {{ form.pesticide_name }}
+    </div>
+    <div class="col-md-6">
+      {{ form.avg_pesticide.label_tag }}
+      {{ form.avg_pesticide }}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.fertilizer_name.label_tag }}
+      {{ form.fertilizer_name }}
+    </div>
+    <div class="col-md-6">
+      {{ form.avg_fertilizer.label_tag }}
+      {{ form.avg_fertilizer }}
+    </div>
+
+    <div class="col-md-6">
+      {{ form.seed_variety.label_tag }}
+      {{ form.seed_variety }}
+    </div>
+
+    <!-- Full-width textarea -->
+    <div class="col-12">
+      {{ form.daily_observation.label_tag }}
+      {{ form.daily_observation }}
+    </div>
+  </div>
+      
 
     <!-- Submit Button -->
     <div class="mt-4">
