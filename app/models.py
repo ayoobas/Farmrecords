@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 pesticide_choices = (
     ('TI','Tihan'),
@@ -17,6 +18,18 @@ fertilizer_choices = (
     ('NPK20', 'NPK20-10-10'),
     ('NPK10', 'NPK10-20-10'),
         )
+
+#create state choices
+STATE_CHOICES = (
+('Lagos','Lagos'),
+('Ondo','Ondo'),
+('Ekiti','Ekiti'),
+('Osun', 'Osun'),
+('Oyo', 'Oyo'),
+('Kwara','Kwara'),
+('Kano','Kano'),
+('Rivers','Rivers'),
+)
 
 class Farminputs(models.Model):
     avg_temp = models.FloatField()
@@ -37,6 +50,17 @@ class Farminputs(models.Model):
 
     def __str__(self):
         return f"{self.seed_variety} - {self.pesticide_name} ({self.created_at})"
+    
+class Staff(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    firstname = models.CharField(max_length = 200)
+    lastname = models.CharField(max_length = 200)
+    city = models.CharField(max_length= 200)
+    mobile = models.IntegerField(default = 0)
+    zipcode = models.IntegerField()
+    state = models.CharField(choices = STATE_CHOICES, max_length = 100)
+    def __str__(self):
+        return self.firstname
 
 
 

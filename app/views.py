@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 from django.http import JsonResponse
-from .forms import FarminputForm
+from .forms import FarminputForm, StaffRegisterForm
+from .models import User
+from .models import Farminputs
 
 
 
@@ -10,10 +12,16 @@ from .models import Farminputs
 
 def home(request):
     return render(request,"index.html", locals())
-     #return render(request,"records.html", locals())
+    
+
 
 def records(request):
-    return render(request,"records.html", locals())
+    recordz = Farminputs.objects.all()
+
+    context = {
+        'recordz':recordz, 
+    }
+    return render(request,"records.html", context)
 
 def login_def(request):
     return render(request,"login.html", locals())
@@ -31,7 +39,42 @@ def register(request):
         
     context = {
         "form": form
-    }
+    } 
+    return render(request, "inputregister.html", context)
+
+
+class StaffRegistration(View):
+    def get(self, request):
+        return render(request, 'staffregistration.html', locals())
+    def post(self, request):
+        # Handle the registration logic on POST requests
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        cpassword = request.POST.get('cpassword')
+
+           # Validate the form data
+        if not username or not email or not password or not cpassword:
+            messages.warning(request, "All fields are required.")
+            return render(request, 'staffregistration.html', locals())
+        
+        if password != cpassword:
+            messages.warning(request, "Passwords do not match.")
+            return render(request, 'staffregistration.html', locals())
+          # Check if a user with the same username or email already exists
+
+        if User.objects.filter(email=email).exists():
+            messages.warning(request, "Email already taken.")
+            return render(request, 'staffregistration.html', locals())
+        
+        # Check if a user with the same username or email already exists
+        if User.objects.filter(username=username).exists():
+            messages.warning(request, "Username already taken.")
+            return render(request, 'staffregistration.html', locals())
+        
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.save()
+        messages.success(request, "Congratulations! Profile saved successfully.")
+        return redirect('login_def')
 
     
-    return render(request, "inputregister.html", context)
