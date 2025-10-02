@@ -14,24 +14,27 @@ def home(request):
     return render(request,"index.html", locals())
     
 
-
+#Display form records
 def records(request):
-    recordz = Farminputs.objects.all()
+    recordz = Farminputs.objects.all().order_by('-created_at')
 
     context = {
         'recordz':recordz, 
     }
     return render(request,"records.html", context)
 
+# for login
+
 def login_def(request):
     return render(request,"login.html", locals())
 
-
+#Input farm records
 def register(request):
     if request.method == 'POST':
         form = FarminputForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Records Submitted Successfully.")
             return redirect('viewrecords')
       
     else:
@@ -77,4 +80,11 @@ class StaffRegistration(View):
         messages.success(request, "Congratulations! Profile saved successfully.")
         return redirect('login_def')
 
-    
+    # delete farm input
+def farmrecords_delete(request, pk):
+    item = Farminputs.objects.get(id=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, "Record deleted Successfully.")
+        return redirect('viewrecords')
+    return render(request, "delete_farminput.html", locals())

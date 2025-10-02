@@ -5,6 +5,7 @@ from crispy_forms.layout import Layout, Row, Column, Submit
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+#Form to enter farm records
 class FarminputForm(forms.ModelForm):
     class Meta:
         model = Farminputs
