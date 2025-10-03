@@ -54,7 +54,7 @@
           <th>Avg Water (L)</th>
           <th>Avg Pesticide (ml)</th>
           <th>Seed Variety</th>
-          <th>Observations </th>
+          <th  class="fixed-col">Observations </th>
             <th>Activity</th>
         </tr>
       </thead>
@@ -66,8 +66,8 @@
           <td>{{item.avg_water}}</td>
           <td>{{item.avg_pesticide}}</td>
           <td>{{ item.seed_variety}}</td>
-          <td>{{item.daily_observation }}</td>
-          <td><a type="button" class="btn btn-primary">update</a> 
+          <td class="fixed-col">{{item.daily_observation }}</td>
+          <td><a type="button" class="btn btn-success" href = "{% url 'farmrecordsedit' item.id %}">update</a> 
           <a  class="btn btn-danger"  href = "{% url 'farmrecordsdelete' item.id %}" >Delete</a></td>
         </tr>
   {% endfor %}

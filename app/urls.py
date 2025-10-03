@@ -10,6 +10,8 @@ urlpatterns = [
     path("registerstaff/", views.StaffRegistration.as_view(), name="registerstaff"),
     path('viewrecords/', views.records, name = "viewrecords"),
     path('farmrecords/delete/<int:pk>', views.farmrecords_delete, name = "farmrecordsdelete"),
+    path('farmrecords/edit/<int:pk>', views.farmrecords_edit, name = "farmrecordsedit"),
+
 
 ]
 

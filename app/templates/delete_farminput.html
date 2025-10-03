@@ -17,9 +17,9 @@
 {% csrf_token %}
 {{ form }}
 
-<a class = "btn btn-success btn-lg" href = "{% url 'viewrecords' %}">Cancel</a>
+<a class = "btn btn-danger btn-lg" href = "{% url 'viewrecords' %}">Cancel</a>
 
-<input class = "btn btn-danger btn-lg" type = "submit" value = "Confirm"/>
+<input class = "btn btn-success btn-lg" type = "submit" value = "Confirm"/>
 </form>
 
 </div>

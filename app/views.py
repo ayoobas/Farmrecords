@@ -88,3 +88,21 @@ def farmrecords_delete(request, pk):
         messages.success(request, "Record deleted Successfully.")
         return redirect('viewrecords')
     return render(request, "delete_farminput.html", locals())
+
+#To edit records
+def farmrecords_edit(request,pk):
+    item = Farminputs.objects.get(id = pk)
+    if request.method == 'POST':
+        form = FarminputForm(request.POST, instance= item)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Record updated Successfully.")
+            return redirect('viewrecords')
+    else:
+        form = FarminputForm(instance = item)
+
+    context = {
+        'form':form,
+
+    }
+    return render(request, 'edit_farminginput.html', context)
