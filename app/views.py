@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .forms import FarminputForm, StaffRegisterForm
 from .models import User
+from django.contrib.auth import authenticate, logout, login
 from .models import Farminputs
 
 
@@ -25,8 +26,27 @@ def records(request):
 
 # for login
 
+
+
 def login_def(request):
-    return render(request,"login.html", locals())
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username = username , password = password)
+        if user is not None:
+            login(request, user)
+            #messages.success(request, ("You have been logged in!"))
+            return redirect('viewrecords')
+        else:
+            messages.warning(request, ("incorrect username or password!"))
+            return redirect('login')
+        
+    return render(request, 'login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, ("You  logged out"))
+    return redirect('user_login')
 
 #Input farm records
 def register(request):

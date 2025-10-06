@@ -5,7 +5,8 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_view
 urlpatterns = [
     path('', views.login_def, name = "home"),
-    path('login/', views.login_def, name = "login_def"),
+    path('login/', views.login_def, name = "user_login"),
+    path('logout/', views.logout_user, name = "user_logout"),
     path("register/", views.register, name="register"),
     path("registerstaff/", views.StaffRegistration.as_view(), name="registerstaff"),
     path('viewrecords/', views.records, name = "viewrecords"),

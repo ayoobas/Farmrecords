@@ -27,7 +27,7 @@
   <div class = "col-sm-12">
 <nav class="navbar navbar-expand-lg" >
   <div class="container-fluid">
-    <a class="navbar-brand text-white" href="#">OBAZ Farm</a>
+   <a class="navbar-brand" href="{% url 'home' %}"><img src = "{% static "/images/site_logo.png" %}" width = "100" height = "60"/></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" 
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -63,7 +63,7 @@
       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-dark" type="submit">Search</button>
-        <a href="logout.php" class="btn btn-danger">Logout</a>
+        <a href="{% url 'user_logout' %}" class="btn btn-danger">Logout</a>
       </form>
     </div>
   </div>
