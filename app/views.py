@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from .forms import FarminputForm, StaffRegisterForm
 from .models import User
 from django.contrib.auth import authenticate, logout, login
+from django.contrib.auth.decorators import login_required
 from .models import Farminputs
 
 
@@ -15,7 +16,8 @@ def home(request):
     return render(request,"index.html", locals())
     
 
-#Display form records
+#Display farm records
+@login_required(login_url = 'user_login')
 def records(request):
     recordz = Farminputs.objects.all().order_by('-created_at')
 
@@ -39,7 +41,7 @@ def login_def(request):
             return redirect('viewrecords')
         else:
             messages.warning(request, ("incorrect username or password!"))
-            return redirect('login')
+            return redirect('user_login')
         
     return render(request, 'login.html', {})
 
@@ -49,6 +51,7 @@ def logout_user(request):
     return redirect('user_login')
 
 #Input farm records
+@login_required(login_url = 'user_login')
 def register(request):
     if request.method == 'POST':
         form = FarminputForm(request.POST)
@@ -98,9 +101,10 @@ class StaffRegistration(View):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
         messages.success(request, "Congratulations! Profile saved successfully.")
-        return redirect('login_def')
+        return redirect('user_login')
 
     # delete farm input
+@login_required(login_url = 'user_login')
 def farmrecords_delete(request, pk):
     item = Farminputs.objects.get(id=pk)
     if request.method == 'POST':
@@ -110,6 +114,7 @@ def farmrecords_delete(request, pk):
     return render(request, "delete_farminput.html", locals())
 
 #To edit records
+@login_required(login_url = 'user_login')
 def farmrecords_edit(request,pk):
     item = Farminputs.objects.get(id = pk)
     if request.method == 'POST':

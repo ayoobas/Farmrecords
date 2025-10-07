@@ -67,8 +67,11 @@
           <td>{{item.avg_pesticide}}</td>
           <td>{{ item.seed_variety}}</td>
           <td class="fixed-col">{{item.daily_observation }}</td>
-          <td><a type="button" class="btn btn-success" href = "{% url 'farmrecordsedit' item.id %}">update</a> 
-          <a  class="btn btn-danger"  href = "{% url 'farmrecordsdelete' item.id %}" >Delete</a></td>
+          <td>
+          <a  class="btn btn-danger"  href = "{% url 'farmrecordsdelete' item.id %}" >Delete</a>
+          <a type="button" class="btn btn-success" href = "{% url 'farmrecordsedit' item.id %}">View More</a> 
+          
+          </td>
         </tr>
   {% endfor %}
       </tbody>

@@ -32,7 +32,7 @@
       aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
+{% if user.is_authenticated %}
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <!-- Home Menu -->
@@ -54,17 +54,37 @@
         </li>
 
            <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'viewrecords' %}">Records</a>
+          <a class="nav-link active btn btn-success shadow" aria-current="page" href="{% url 'register' %}">Add Record</a>
         </li>
-
+   <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'viewrecords' %}">View Records</a>
+        </li>
       </ul>
+
+         
+{% comment %} for the register and login {% endcomment %}
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item p-2">
+        <a class = "nav-link text-white" href="#">Admin Profile</a>
+        </li>
+        <li class="nav-item p-2">
+          
+            
+           <a href="{% url 'user_logout' %}" class="btn btn-danger">Logout</a>
+        </li>
+</ul>
+{% else %}
+  <ul class="navbar-nav ml-auto">
+        <li class="nav-item p-2">
+        <a class = "nav-link text-white" href="{% url 'registerstaff' %}">Register</a>
+        </li>
+        <li class="nav-item p-2">
+          {% comment %} nav-link text-white {% endcomment %}
+              <a class = "btn btn-success shadow" href="{% url 'user_login' %}">Login</a>
+        </li>
+</ul>
        
-      <!-- Search Bar -->
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-dark" type="submit">Search</button>
-        <a href="{% url 'user_logout' %}" class="btn btn-danger">Logout</a>
-      </form>
+   {% endif %}
     </div>
   </div>
 </nav>
