@@ -25,6 +25,7 @@
 {% endif %}
 
 <h3 class="mb-3">Farm Data</h3>
+ <hr class="gradient-double">
 <div class = "row">
 
  <!-- Date Search Filters -->
@@ -55,7 +56,9 @@
           <th>Avg Pesticide (ml)</th>
           <th>Seed Variety</th>
           <th  class="fixed-col">Observations </th>
+           <th>Staff</th>
             <th>Activity</th>
+         
         </tr>
       </thead>
       <tbody>
@@ -67,6 +70,8 @@
           <td>{{item.avg_pesticide}}</td>
           <td>{{ item.seed_variety}}</td>
           <td class="fixed-col">{{item.daily_observation }}</td>
+            <td>{{ item.user}}</td>
+        
           <td>
           <a  class="btn btn-danger"  href = "{% url 'farmrecordsdelete' item.id %}" >Delete</a>
           <a type="button" class="btn btn-success" href = "{% url 'farmrecordsedit' item.id %}">View More</a> 

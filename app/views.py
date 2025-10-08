@@ -6,6 +6,8 @@ from .forms import FarminputForm, StaffRegisterForm
 from .models import User
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from django.utils import timezone
 from .models import Farminputs
 
 
@@ -56,6 +58,8 @@ def register(request):
     if request.method == 'POST':
         form = FarminputForm(request.POST)
         if form.is_valid():
+            farminput = form.save(commit=False)  
+            farminput.user = request.user 
             form.save()
             messages.success(request, "Records Submitted Successfully.")
             return redirect('viewrecords')
@@ -131,3 +135,24 @@ def farmrecords_edit(request,pk):
 
     }
     return render(request, 'edit_farminginput.html', context)
+
+
+@login_required(login_url='user_login')
+def greeting_context(request):
+    if not request.user.is_authenticated:
+        return {}
+    current_hour = timezone.now().hour
+
+    if current_hour < 12:
+        greeting = "Good morning"
+    elif current_hour < 18:
+        greeting = "Good afternoon"
+    else:
+        greeting = "Good evening"
+
+    context = {
+        'greeting': greeting,
+    }
+    print("check", greeting)
+    #return redirect('viewrecords')
+    return render(request, 'base.html', context)

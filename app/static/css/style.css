@@ -124,3 +124,17 @@ background-color: rgb(8, 136, 108) !important;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.gradient-double {
+  border: none;
+  height: 4px;
+  background: linear-gradient(to bottom, #333 33%, transparent 33%, transparent 66%, #333 66%);
+}
+
+.welcome-user {
+  background-color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+}

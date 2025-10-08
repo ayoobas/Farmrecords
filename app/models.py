@@ -32,6 +32,7 @@ STATE_CHOICES = (
 )
 
 class Farminputs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
     avg_temp = models.FloatField()
     avg_water = models.FloatField()
     avg_pesticide = models.FloatField()

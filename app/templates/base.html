@@ -64,20 +64,23 @@
          
 {% comment %} for the register and login {% endcomment %}
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item p-2">
+        {% comment %} <li class="nav-item p-2">
         <a class = "nav-link text-white" href="#">Admin Profile</a>
+        </li> {% endcomment %}
+
+         <li class="nav-item p-2">
+       {% if request.user.is_authenticated %} <span class = "welcome-user text-dark text-capitalize px-2 py-1">  welcome, {{request.user}} {% endif %}</span>
         </li>
+       
         <li class="nav-item p-2">
-          
-            
-           <a href="{% url 'user_logout' %}" class="btn btn-danger">Logout</a>
+           <a href="{% url 'user_logout' %}" class="btn btn-danger btn-sm">Logout</a>
         </li>
 </ul>
 {% else %}
   <ul class="navbar-nav ml-auto">
-        <li class="nav-item p-2">
+        {% comment %} <li class="nav-item p-2">
         <a class = "nav-link text-white" href="{% url 'registerstaff' %}">Register</a>
-        </li>
+        </li> {% endcomment %}
         <li class="nav-item p-2">
           {% comment %} nav-link text-white {% endcomment %}
               <a class = "btn btn-success shadow" href="{% url 'user_login' %}">Login</a>
