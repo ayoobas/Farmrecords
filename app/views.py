@@ -6,6 +6,7 @@ from .forms import FarminputForm, StaffRegisterForm
 from .models import User
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator 
 from datetime import datetime
 from django.utils import timezone
 from .models import Farminputs
@@ -23,15 +24,18 @@ def home(request):
 def records(request):
     recordz = Farminputs.objects.all().order_by('-created_at')
 
+  
+    page_list = Paginator(Farminputs.objects.all().order_by('-created_at'), 3)
+    page = request.GET.get('page')
+    venues = page_list.get_page(page)
+
     context = {
         'recordz':recordz, 
+        'venues':venues
     }
     return render(request,"records.html", context)
 
 # for login
-
-
-
 def login_def(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -107,7 +111,7 @@ class StaffRegistration(View):
         messages.success(request, "Congratulations! Profile saved successfully.")
         return redirect('user_login')
 
-    # delete farm input
+ # delete farm input
 @login_required(login_url = 'user_login')
 def farmrecords_delete(request, pk):
     item = Farminputs.objects.get(id=pk)
