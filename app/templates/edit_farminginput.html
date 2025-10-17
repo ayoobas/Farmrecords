@@ -31,7 +31,11 @@
     <!-- Submit Button -->
     <div class="mt-4">
  <a class = "btn btn-danger" href = "{% url 'viewrecords' %}">Cancel</a>
+   {% if user.is_authenticated and user.is_staff and user.is_superuser %}
       <button type="submit" class="btn btn-success">Update</button>
+      {% else %}
+     <a class = "btn btn-success" href = "#">Request Update</a>
+      {% endif %}
       
     </div>
   </form>
