@@ -124,6 +124,13 @@ background-color: rgb(8, 136, 108) !important;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.fixed-col-dat {
+  width: 170px;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .gradient-double {
   border: none;

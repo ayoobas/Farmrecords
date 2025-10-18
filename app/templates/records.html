@@ -117,7 +117,25 @@
   </div>
 </div>
 <br/><br/>
+<script>
+function filterByDate() {
+  const fromDate = document.getElementById('fromDate').value;
+  const toDate = document.getElementById('toDate').value;
 
+
+  // Reload the page with query parameters
+  const params = new URLSearchParams(window.location.search);
+  if (fromDate) params.set('from', fromDate);
+  else params.delete('from');
+  
+  if (toDate) params.set('to', toDate);
+  else params.delete('to');
+  window.location.search = params.toString();
+
+ // csv download
+ 
+}
+</script>
 
 {% endblock main-content %}
 

@@ -7,6 +7,7 @@ from .models import User
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator 
+from django.utils.dateparse import parse_date
 from datetime import datetime
 from django.utils import timezone
 from .models import Farminputs
@@ -23,15 +24,23 @@ def home(request):
 @login_required(login_url = 'user_login')
 def records(request):
     recordz = Farminputs.objects.all().order_by('-created_at')
+    #For the search from to date
+    from_date = request.GET.get('from')
+    to_date = request.GET.get('to')
+    if from_date:
+        recordz  = recordz .filter(created_at__date__gte=parse_date(from_date))
+    if to_date:
+        recordz  = recordz .filter(created_at__date__lte=parse_date(to_date))
 
   
-    page_list = Paginator(Farminputs.objects.all().order_by('-created_at'), 5)
-    page = request.GET.get('page')
-    venues = page_list.get_page(page)
+    paginator = Paginator(recordz, 4)
+    page_number = request.GET.get('page')
+    venues = paginator.get_page(page_number)
 
     context = {
-        'recordz':recordz, 
-        'venues':venues
+        'venues': venues,
+        'from_date': from_date,
+        'to_date': to_date
     }
     return render(request,"records.html", context)
 
