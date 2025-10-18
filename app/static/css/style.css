@@ -118,8 +118,8 @@ background-color: rgb(8, 136, 108) !important;
 }
 
 .fixed-col {
-  width: 200px;
-  max-width: 200px;
+  width: 100px;
+  max-width: 100px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

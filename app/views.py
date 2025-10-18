@@ -25,7 +25,7 @@ def records(request):
     recordz = Farminputs.objects.all().order_by('-created_at')
 
   
-    page_list = Paginator(Farminputs.objects.all().order_by('-created_at'), 3)
+    page_list = Paginator(Farminputs.objects.all().order_by('-created_at'), 5)
     page = request.GET.get('page')
     venues = page_list.get_page(page)
 
