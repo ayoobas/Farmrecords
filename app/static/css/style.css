@@ -145,3 +145,10 @@ background-color: rgb(8, 136, 108) !important;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: inline-block;
 }
+
+.gradient-double {
+    height: 3px;
+    background: linear-gradient(to right, #28a745, #81c784, #28a745);
+    border: none;
+    margin: 1rem 0;
+  }

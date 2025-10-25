@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 from django.http import JsonResponse
-from .forms import FarminputForm, StaffRegisterForm
+from .forms import FarminputForm, StaffRegisterForm, FarminputtwoForm
 from .models import User
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
@@ -10,11 +10,7 @@ from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
 from datetime import datetime
 from django.utils import timezone
-from .models import Farminputs
-
-
-
-from .models import Farminputs
+from .models import Farminputs, Farminputtwo
 
 def home(request):
     return render(request,"index.html", locals())
@@ -66,24 +62,31 @@ def logout_user(request):
     return redirect('user_login')
 
 #Input farm records
-@login_required(login_url = 'user_login')
+@login_required(login_url='user_login')
 def register(request):
     if request.method == 'POST':
         form = FarminputForm(request.POST)
-        if form.is_valid():
-            farminput = form.save(commit=False)  
-            farminput.user = request.user 
-            form.save()
-            messages.success(request, "Records Submitted Successfully.")
+        formtwo = FarminputtwoForm(request.POST)
+
+        if form.is_valid() and formtwo.is_valid():
+            # Save Farminputs first
+            farminput = form.save(commit=False)
+            farminput.user = request.user
+            farminput.save()
+
+            # Link second form
+            formtwo_instance = formtwo.save(commit=False)
+            formtwo_instance.FI = farminput
+            formtwo_instance.save()
+
+            messages.success(request, "✅ Farm record added successfully!")
             return redirect('viewrecords')
-      
     else:
         form = FarminputForm()
-        
-    context = {
-        "form": form
-    } 
-    return render(request, "inputregister.html", context)
+        formtwo = FarminputtwoForm()
+
+    context = {'form': form, 'formtwo': formtwo}
+    return render(request, 'inputregister.html', context)
 
 
 class StaffRegistration(View):
@@ -132,21 +135,39 @@ def farmrecords_delete(request, pk):
 
 #To edit records
 @login_required(login_url = 'user_login')
-def farmrecords_edit(request,pk):
-    item = Farminputs.objects.get(id = pk)
+def farmrecords_edit(request, pk):
+    # Get the Farminputs record
+    item = Farminputs.objects.get(id=pk)
+    # Try to get the related Farminputtwo (if it exists)
+    try:
+        item_two = Farminputtwo.objects.get(FI=item)
+    except Farminputtwo.DoesNotExist:
+        item_two = None  # if it doesn't exist yet
+    
     if request.method == 'POST':
-        form = FarminputForm(request.POST, instance= item)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Record updated Successfully.")
+        form = FarminputForm(request.POST, instance=item)
+        formtwo = FarminputtwoForm(request.POST, instance=item_two)
+
+        if form.is_valid() and formtwo.is_valid():
+            # Save Farminputs first
+            updated_item = form.save()
+            # Save or create Farminputtwo
+            updated_item_two = formtwo.save(commit=False)
+            updated_item_two.FI = updated_item  # Link to Farminputs
+            updated_item_two.save()
+
+            messages.success(request, "✅ Record updated successfully.")
             return redirect('viewrecords')
+
     else:
-        form = FarminputForm(instance = item)
+        form = FarminputForm(instance=item)
+        formtwo = FarminputtwoForm(instance=item_two)
 
     context = {
-        'form':form,
-
+        'form': form,
+        'formtwo': formtwo
     }
+
     return render(request, 'edit_farminginput.html', context)
 
 
