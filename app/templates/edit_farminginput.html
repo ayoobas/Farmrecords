@@ -80,6 +80,38 @@
     progressBar.style.width = "50%";
     progressBar.innerText = "Step 1 of 2";
   });
+
+    //Hide and show nursery and permanent stage
+  document.addEventListener('DOMContentLoaded', function() {
+  const stageSelect = document.getElementById('id_plant_stage');
+  const plantNumberDiv = document.getElementById('div_id_plant_number');
+  const plantAgeDiv = document.getElementById('div_id_plant_age');
+  const cocopeatNameDiv = document.getElementById('div_id_cocopeat_name');
+  const cocopeatWeightDiv = document.getElementById('div_id_cocopeat_weight');
+
+  // Function to toggle visibility
+  function toggleFields() {
+    const stageValue = stageSelect.value;
+
+    if (stageValue === '1') { // Nursery selected
+      plantNumberDiv.style.display = 'none';
+      plantAgeDiv.style.display = 'none';
+      cocopeatNameDiv.style.display = 'block';
+      cocopeatWeightDiv.style.display = 'block';
+    } else {
+      plantNumberDiv.style.display = 'block';
+      plantAgeDiv.style.display = 'block';
+      cocopeatNameDiv.style.display = 'none';
+      cocopeatWeightDiv.style.display = 'none';
+    }
+  }
+
+  // Run on page load
+  toggleFields();
+
+  // Run when dropdown changes
+  stageSelect.addEventListener('change', toggleFields);
+});
 </script>
 <br/><br/>
 

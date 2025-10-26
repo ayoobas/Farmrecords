@@ -1,0 +1,5 @@
+id,avg_temp,avg_water,seed_variety,daily_observation,created_at,user_id,cocopeat_name,cocopeat_weight,plant_age,plant_stage,plant_number,id,fungicide_name,avg_fungicide,insecticide_name,avg_insecticide,micronutrient_name,avg_micronutrient,fertilizer_name,avg_fertilizer,FI_id
+9,45.0,65.0,PL,Some leaves are yellow,2025-10-02 12:11:39.789596,1,,0.0,0,,0,1,MA,43.0,LG,65.0,AG,67.0,Manure,67.0,9
+20,23.0,84.0,PL,In good condition,2025-10-25 23:08:21.550584,1,CO,45.0,0,1,0,2,MA,34.0,LG,65.0,AG,56.0,NPK15,34.0,20
+21,20.0,20.0,PL,In a good condition now oya now,2025-10-25 23:16:16.325655,1,,,2,2,1000,3,FL,20.0,LG,39.0,YA,40.0,NPK15,80.0,21
+19,45.0,45.0,CB,There is need to water the farm morning and night to prevent drought. jYes o,2025-10-18 07:15:36.582262,1,,0.0,40,2,20,4,FL,60.0,TI,80.0,YA,30.0,NPK15,20.0,19
