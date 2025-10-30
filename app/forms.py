@@ -15,7 +15,13 @@ class FarminputForm(forms.ModelForm):
     
         widgets = {
             "daily_observation": forms.Textarea(attrs={"rows": 4})  # 👈 make textarea taller
+            
         }
+        labels = {
+            "cocopeat_weight": "Cocopeat weight (kg)",  # 👈 adds (kg) to the field label
+             "avg_temp": "avg_temp (°C)",
+        }
+
 
 class FarminputtwoForm(forms.ModelForm):
     class Meta:
