@@ -14,13 +14,24 @@ class FarminputForm(forms.ModelForm):
                   'daily_observation']
     
         widgets = {
-            "daily_observation": forms.Textarea(attrs={"rows": 4})  # 👈 make textarea taller
-            
+            "daily_observation": forms.Textarea(attrs={"rows": 4}),  # 👈 make textarea taller
+       
         }
         labels = {
+            "plant_age":"plant_age (days)",
             "cocopeat_weight": "Cocopeat weight (kg)",  # 👈 adds (kg) to the field label
              "avg_temp": "avg_temp (°C)",
+             "avg_water":"avg_water (L)",
         }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only show placeholder (no starting 0)
+        if not self.instance or not self.instance.pk:
+            self.fields['plant_number'].initial = None
+            self.fields['plant_age'].initial = None
+            self.fields['cocopeat_weight'].initial = None
+            self.fields['avg_temp'].initial = None
+            self.fields['avg_water'].initial = None
 
 
 class FarminputtwoForm(forms.ModelForm):
@@ -29,6 +40,21 @@ class FarminputtwoForm(forms.ModelForm):
         fields = ['fungicide_name','avg_fungicide','insecticide_name','avg_insecticide', 
                   'micronutrient_name', 'avg_micronutrient','fertilizer_name', 
                   'avg_fertilizer']
+        labels = {
+              "avg_fungicide":"avg_fungicide (L)",
+              "avg_insecticide":"avg_insecticide (L)",
+              "avg_micronutrient":"avg_micronutrient (L)",
+              "avg_fertilizer":"avg_fertilizer (kg)",
+          }
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Only show placeholder (no starting 0)
+        if not self.instance or not self.instance.pk:
+            self.fields['avg_fungicide'].initial = None
+            self.fields['avg_insecticide'].initial = None
+            self.fields['avg_micronutrient'].initial = None
+            self.fields['avg_fertilizer'].initial = None
+         
 
 
 

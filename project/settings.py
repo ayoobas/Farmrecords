@@ -136,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL ="/login/"
 
 AUTO_LOGOUT = {
-    'IDLE_TIME':180, 'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
+    'IDLE_TIME':600, 'REDIRECT_TO_LOGIN_IMMEDIATELY': True,
     #'SESSION_TIME': 180,
     'MESSAGE': 'The session has expired. Please login again to continue.',
 }
