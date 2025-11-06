@@ -171,6 +171,11 @@ def farmrecords_edit(request, pk):
     return render(request, 'edit_farminginput.html', context)
 
 
+##Profile Creation
+def profile(request):
+    return render(request, 'profile.html')
+
+
 @login_required(login_url='user_login')
 def greeting_context(request):
     if not request.user.is_authenticated:

@@ -92,11 +92,7 @@ class Farminputtwo(models.Model):
         return f"{self.id}"
     
 class Staff(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    firstname = models.CharField(max_length = 60)
-    lastname = models.CharField(max_length = 60)
-    email = models.EmailField(null=True, blank=True)
-   
+    user = models.ForeignKey(User,on_delete=models.CASCADE)   
     mobile = models.IntegerField(default = 0, null=True, blank=True)
     streetno = models.IntegerField(default = 0, null=True, blank=True)
     streetname = models.CharField(max_length= 60, null=True, blank=True)
@@ -108,6 +104,9 @@ class Staff(models.Model):
     marital_status = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
     children_no= models.IntegerField(default= 0, null=True, blank=True)
     spouse_no = models.IntegerField( default= 0, null=True, blank=True)
+    class Meta:
+        verbose_name = "Staff"
+        verbose_name_plural = "Staff"  # Prevents Django from adding "s"
 
     def __str__(self):
         return self.firstname

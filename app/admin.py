@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import Farminputs, Farminputtwo
+from . models import Farminputs, Farminputtwo, Staff
 from import_export.admin import ImportExportModelAdmin
 
 admin.site.site_header = 'OBAZ FarmInput'
@@ -16,4 +16,8 @@ class FarmInputtwoModelAdmin(ImportExportModelAdmin):
                     'avg_insecticide' ,'micronutrient_name','avg_micronutrient', 
                     'fertilizer_name','avg_fertilizer')
 
+@admin.register(Staff)
+class StaffModelAdmin(ImportExportModelAdmin):
+    list_display = ('id', 'mobile', 'streetno', 'streetname', 'city', 'state', 'emp_date',
+                    'current_salary', 'marital_status','children_no','spouse_no')
 
