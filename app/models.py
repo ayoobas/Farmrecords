@@ -46,6 +46,10 @@ GENDER_CHOICES = (
     ('M','Male'),
     ('F', 'Female'),
 )
+MARITAL_STATUS = (
+    ('M','Married'),
+    ('S', 'Single'),
+)
 
 #create state choices
 STATE_CHOICES = (
@@ -92,24 +96,25 @@ class Farminputtwo(models.Model):
         return f"{self.id}"
     
 class Staff(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)   
+    staff = models.OneToOneField(User,on_delete=models.CASCADE, null = True)   
     mobile = models.IntegerField(default = 0, null=True, blank=True)
     streetno = models.IntegerField(default = 0, null=True, blank=True)
     streetname = models.CharField(max_length= 60, null=True, blank=True)
     city = models.CharField(max_length= 60, null=True, blank=True)
-
     state = models.CharField(choices = STATE_CHOICES, max_length = 20)
     emp_date = models.DateField(null=True, blank=True)
     current_salary = models.FloatField(default= 0, null=True, blank=True)
-    marital_status = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
-    children_no= models.IntegerField(default= 0, null=True, blank=True)
+    gender = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
+    marital_status = models.CharField(choices = MARITAL_STATUS, max_length = 2, null=True, blank=True)
+    children_no = models.IntegerField(default= 0, null=True, blank=True)
     spouse_no = models.IntegerField( default= 0, null=True, blank=True)
+    image = models.ImageField(default = 'avatar.jpg', upload_to = 'Profile_Images')
     class Meta:
         verbose_name = "Staff"
         verbose_name_plural = "Staff"  # Prevents Django from adding "s"
 
     def __str__(self):
-        return self.firstname
+        return self.staff.username
 
 
 

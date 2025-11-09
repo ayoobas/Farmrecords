@@ -171,9 +171,15 @@ def farmrecords_edit(request, pk):
     return render(request, 'edit_farminginput.html', context)
 
 
-##Profile Creation
-def profile(request):
+##View staff profile
+@login_required(login_url = 'user_login')
+def staff_profile(request):
     return render(request, 'profile.html')
+
+## List of staff 
+@login_required(login_url = 'user_login')
+def staff_list(request):
+    return render(request, 'staff_list.html')
 
 
 @login_required(login_url='user_login')

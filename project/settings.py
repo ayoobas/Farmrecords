@@ -123,10 +123,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
+# MEDIA_URL = 'media/'
+# MEDIA_ROOT = BASE_DIR/ 'media'
 
 STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR/'media'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = (BASE_DIR/ 'media')
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Default primary key field type

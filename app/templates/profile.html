@@ -36,37 +36,37 @@
                             </tr>
                             <tr>
                                 <th scope="row">Phone</th>
-                                <td>{{ user.profile.phone }}</td>
+                                <td>{{ user.staff.phone }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Address</th>
-                                <td>{{ staff.streetno }} {{ staff.streetname }} {{ staff.city }}</td>
+                                <td>{{ user.staff.streetno }} {{ user.staff.streetname }} {{ user.staff.city }}</td>
                             </tr>
                               <tr>
                                 <th scope="row">State</th>
-                                <td>{{ staff.state }} </td>
+                                <td>{{ user.staff.state }} </td>
                             </tr>
                                 <tr>
                                 <th scope="row">Emp_Date</th>
-                                <td>{{ staff.emp_date }} </td>
+                                <td>{{ user.staff.emp_date }} </td>
                             </tr>
                                <tr>
                                 <th scope="row">Current_Salary</th>
-                                <td>{{ staff.salary }} </td>
+                                <td>{{ user.staff.current_salary }} </td>
                             </tr>
                                <tr>
                                 <th scope="row">Children_Number</th>
-                                <td>{{ staff.children_no }} </td>
+                                <td>{{ user.staff.children_no }} </td>
                             </tr>
                                <tr>
                                 <th scope="row">Spouse_no</th>
-                                <td>{{ staff.spouse_no }} </td>
+                                <td>{{ user.staff.spouse_no }} </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="col-md-4">
-                    <img class="img-thumbnail" src="{{ user.profile.image.url }}" alt="profile-image">
+                    <img class="img-thumbnail" src="{{ user.staff.image.url }}" alt="profile-image">
                 </div>
             </div>
         </div>
