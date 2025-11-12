@@ -52,8 +52,8 @@
         <tr>
           <th>Date</th>
           <th>Avg Temp (°C)</th>
-          <th>Avg Water (L)</th>
-          <th>Avg Pesticide (ml)</th>
+          <th>Stage</th>
+          <th>Plant Age</th>
           <th>Seed Variety</th>
           <th  class="fixed-col">Observations </th>
            <th>Staff</th>
@@ -65,9 +65,9 @@
       {% for item in venues %}
         <tr>
           <td>{{ item.created_at }}</td>
-          <td class="fixed-col">{{ item.avg_water}}</td>
-          <td class="fixed-col">{{item.avg_water}}</td>
-          <td class="fixed-col">{{item.avg_pesticide}}</td>
+          <td class="fixed-col">{{ item.avg_temp}}</td>
+          <td class="fixed-col">{{item.plant_stage}}</td>
+          <td class="fixed-col">{{item.plant_age}}</td>
           <td class="fixed-col">{{ item.seed_variety}}</td>
           <td class="fixed-col">{{item.daily_observation }}</td>
             <td>{{ item.user}}</td>

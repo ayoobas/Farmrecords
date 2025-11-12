@@ -32,6 +32,7 @@ class FarminputForm(forms.ModelForm):
             self.fields['cocopeat_weight'].initial = None
             self.fields['avg_temp'].initial = None
             self.fields['avg_water'].initial = None
+         
 
 
 class FarminputtwoForm(forms.ModelForm):
@@ -54,6 +55,16 @@ class FarminputtwoForm(forms.ModelForm):
             self.fields['avg_insecticide'].initial = None
             self.fields['avg_micronutrient'].initial = None
             self.fields['avg_fertilizer'].initial = None
+            self.fields['fungicide_name'].required = False
+            self.fields['avg_fungicide'].required = False
+            self.fields['fungicide_name'].required = False
+            self.fields['insecticide_name'].required = False
+            self.fields['avg_insecticide'].required = False
+            self.fields['micronutrient_name'].required = False
+            self.fields['avg_micronutrient'].required = False
+            self.fields['fertilizer_name'].required = False
+            self.fields['avg_fertilizer'].required = False
+            
          
 
 

@@ -28,7 +28,6 @@ def records(request):
     if to_date:
         recordz  = recordz .filter(created_at__date__lte=parse_date(to_date))
 
-  
     paginator = Paginator(recordz, 4)
     page_number = request.GET.get('page')
     venues = paginator.get_page(page_number)
@@ -181,7 +180,7 @@ def staff_profile(request):
 def staff_list(request):
     return render(request, 'staff_list.html')
 
-
+#for good day , good afternoon
 @login_required(login_url='user_login')
 def greeting_context(request):
     if not request.user.is_authenticated:
