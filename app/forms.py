@@ -52,6 +52,7 @@ class FarminputtwoForm(forms.ModelForm):
         # Only show placeholder (no starting 0)
         if not self.instance or not self.instance.pk:
             self.fields['avg_fungicide'].initial = None
+    
             self.fields['avg_insecticide'].initial = None
             self.fields['avg_micronutrient'].initial = None
             self.fields['avg_fertilizer'].initial = None
