@@ -1,6 +1,9 @@
 from django.contrib import admin
 from . models import Farminputs, Farminputtwo, Staff
 from import_export.admin import ImportExportModelAdmin
+from import_export import resources
+from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 admin.site.site_header = 'OBAZ FarmInput'
 
@@ -21,3 +24,12 @@ class StaffModelAdmin(ImportExportModelAdmin):
     list_display = ('id', 'staff','mobile', 'streetno', 'streetname', 'city', 'state', 'emp_date',
                     'current_salary', 'marital_status','children_no','spouse_no')
 
+class UserResource(resources.ModelResource):
+    class Meta:
+        model = User
+
+class UserAdmin(ImportExportModelAdmin):
+    resource_class = UserResource
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
