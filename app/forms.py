@@ -38,7 +38,7 @@ class FarminputForm(forms.ModelForm):
 class FarminputtwoForm(forms.ModelForm):
     class Meta:
         model = Farminputtwo
-        fields = ['fungicide_name','avg_fungicide','insecticide_name','avg_insecticide', 
+        fields = ['fungicide_name','avg_fungicide','insecticide_name','avg_insecticide','herbicide_name','avg_herbicide', 
                   'micronutrient_name', 'avg_micronutrient','fertilizer_name', 
                   'avg_fertilizer']
         labels = {
@@ -51,11 +51,12 @@ class FarminputtwoForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # Only show placeholder (no starting 0)
         if not self.instance or not self.instance.pk:
-            self.fields['avg_fungicide'].initial = None
-    
+            self.fields['avg_herbicide'].initial = None
+            self.fields['avg_fungicide'].initial = None    
             self.fields['avg_insecticide'].initial = None
             self.fields['avg_micronutrient'].initial = None
             self.fields['avg_fertilizer'].initial = None
+            self.fields['avg_herbicide'].required  = False
             self.fields['fungicide_name'].required = False
             self.fields['avg_fungicide'].required = False
             self.fields['fungicide_name'].required = False

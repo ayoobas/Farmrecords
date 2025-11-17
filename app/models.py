@@ -36,6 +36,14 @@ fertilizer_choices = (
     ('SSP','SSP' ),
 )
 
+herbicides_choices = (
+    ('FU','Force-Up'),
+    ('BF','Bara-Force'),
+    ('WC','Weed-Crusher'),
+    ('SL', 'Slasher'),
+
+)
+
 cocopeat_choices = (
     ('CO', 'Coco-Coir'),('CB', 'Coco-Bliss'),
     ('GP', 'Golden-Peat'),
@@ -84,6 +92,8 @@ class Farminputtwo(models.Model):
     avg_fungicide = models.FloatField(default= 0, null=True, blank=True)
     insecticide_name = models.CharField(choices = insecticide_choices, max_length = 2)
     avg_insecticide = models.FloatField(default= 0, null=True, blank=True)
+    herbicide_name = models.CharField(choices = herbicides_choices, max_length = 2)
+    avg_herbicide = models.FloatField(default= 0, null=True, blank=True)
     micronutrient_name = models.CharField(choices = micronutrient_choices, max_length = 2)
     avg_micronutrient = models.FloatField(default= 0, null=True, blank=True)
     fertilizer_name = models.CharField(choices = fertilizer_choices, max_length = 7)
