@@ -46,6 +46,7 @@ class FarminputtwoForm(forms.ModelForm):
               "avg_insecticide":"avg_insecticide (L)",
               "avg_micronutrient":"avg_micronutrient (L)",
               "avg_fertilizer":"avg_fertilizer (kg)",
+              "avg_herbicide":"avg_herbicide (L)"
           }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,6 +59,8 @@ class FarminputtwoForm(forms.ModelForm):
             self.fields['avg_fertilizer'].initial = None
             self.fields['avg_herbicide'].required  = False
             self.fields['fungicide_name'].required = False
+            self.fields['avg_herbicide'].required = False
+            self.fields['herbicide_name'].required = False
             self.fields['avg_fungicide'].required = False
             self.fields['fungicide_name'].required = False
             self.fields['insecticide_name'].required = False
