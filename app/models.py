@@ -55,8 +55,8 @@ GENDER_CHOICES = (
     ('F', 'Female'),
 )
 MARITAL_STATUS = (
-    ('M','Married'),
-    ('S', 'Single'),
+    ('Married','Married'),
+    ('Single', 'Single'),
 )
 
 #create state choices
@@ -115,10 +115,10 @@ class Staff(models.Model):
     emp_date = models.DateField(null=True, blank=True)
     current_salary = models.FloatField(default= 0, null=True, blank=True)
     gender = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
-    marital_status = models.CharField(choices = MARITAL_STATUS, max_length = 2, null=True, blank=True)
+    marital_status = models.CharField(choices = MARITAL_STATUS, max_length = 10, null=True, blank=True)
     is_active = models.BooleanField(default=False) 
     emp_role =  models.CharField(max_length= 60, null=True, blank=True)
-    
+
     image = models.ImageField(default = 'avatar.jpg', upload_to = 'Profile_Images')
     class Meta:
         verbose_name = "Staff"
