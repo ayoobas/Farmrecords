@@ -10,7 +10,7 @@ from django.core.paginator import Paginator
 from django.utils.dateparse import parse_date
 from datetime import datetime
 from django.utils import timezone
-from .models import Farminputs, Farminputtwo
+from .models import Farminputs, Farminputtwo, RequestFarmrecordupdates
 
 def home(request):
     return render(request,"index.html", locals())
@@ -155,6 +155,9 @@ def farmrecords_edit(request, pk):
             updated_item_two.FI = updated_item  # Link to Farminputs
             updated_item_two.save()
 
+            #update RequestFarmrecordupdate table
+            updaterectified(item.id)
+
             messages.success(request, "✅ Record updated successfully.")
             return redirect('viewrecords')
 
@@ -164,11 +167,17 @@ def farmrecords_edit(request, pk):
 
     context = {
         'form': form,
-        'formtwo': formtwo
+        'formtwo': formtwo,
+        'itemid':item.id
     }
 
     return render(request, 'edit_farminginput.html', context)
 
+def updaterectified(record_id):
+    # Get the Farminputs object
+    item = Farminputs.objects.get(id=record_id)
+    # Update all requests linked to this item
+    RequestFarmrecordupdates.objects.filter(record_id=item.id).update(rectified=True)
 
 ##View staff profile
 @login_required(login_url = 'user_login')
@@ -179,6 +188,65 @@ def staff_profile(request):
 @login_required(login_url = 'user_login')
 def staff_list(request):
     return render(request, 'staff_list.html')
+
+#Display Update request List
+@login_required(login_url = 'user_login')
+def updatefarmrecordlist(request):
+
+    item = RequestFarmrecordupdates.objects.all().order_by('-created_at')
+    
+    return render(request , 'updaterequest_list.html', {'item':item})
+
+
+#Request from Admin to update farm records
+def Requestupdate(request, pk):
+    item = Farminputs.objects.get(id=pk)
+
+    if request.method == "POST":
+        description = request.POST.get("reqdescription")
+
+        if description is None or description.strip() == "":
+            messages.warning(request, "Please enter some value.")
+            return redirect(request.path)   # Reload page
+
+        if not request.user.is_authenticated:
+            messages.warning(request, "You must be logged in to submit a request.")
+            return redirect("login")
+
+        # Save request
+        RequestFarmrecordupdates.objects.create(
+            user=request.user,
+            record_id=pk,
+            request=description,
+            rectified=False
+        )
+
+        messages.success(request, "Request was saved successfully.")
+        return redirect("viewrecords")
+
+    return render(request, "request_updateinputrecords.html", {"item": item})
+
+
+
+ # delete farm input
+@login_required(login_url = 'user_login')
+def Requestfarmrecorddelete(request, pk):
+    item = RequestFarmrecordupdates.objects.get(id=pk)
+    if request.method == 'POST':
+        item.delete()
+        messages.success(request, "Record deleted Successfully.")
+        return redirect('updatefarmrecordlist')
+    return render(request, "delete_requestupdate.html", locals())
+
+
+
+
+
+
+
+
+
+
 
 #for good day , good afternoon
 @login_required(login_url='user_login')

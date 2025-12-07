@@ -47,13 +47,19 @@
             {{ formtwo|crispy }}
             <div class="d-flex justify-content-between mt-4">
               <button type="button" class="btn btn-secondary" id="backBtn">⬅ Back</button>
+                
                  {% if user.is_authenticated and user.is_staff and user.is_superuser %}
               <button type="submit" class="btn btn-success">✅Update</button>
               {% else %}
-               <a class = "btn btn-success" href = "#">Request Update</a>
+        <a class = "btn btn-success" href = " {% url 'requestupdate' itemid %}">Request Update</a> 
+                 
+               {% comment %} <a class = "btn btn-success" href = " {% url 'requestupdate' %}">Request Update</a> {% endcomment %}
+                 
                   {% endif %}
+                     
             </div>
           </div>
+   
         </form>
       </div>
     </div>

@@ -15,6 +15,10 @@ urlpatterns = [
     path('viewrecords/', views.records, name = "viewrecords"),
     path('farmrecords/delete/<int:pk>', views.farmrecords_delete, name = "farmrecordsdelete"),
     path('farmrecords/edit/<int:pk>', views.farmrecords_edit, name = "farmrecordsedit"),
+    path('requestupdate/<int:pk>', views.Requestupdate, name="requestupdate"),
+    path('requestupdate/delete/<int:pk>', views.Requestfarmrecorddelete, name = "requestupdatedelete"),
+
+    path("updatefarmrecordlist/", views.updatefarmrecordlist, name="updatefarmrecordlist"),
 
 
 ]+ static( settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)  # for the media files

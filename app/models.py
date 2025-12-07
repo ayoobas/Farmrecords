@@ -107,7 +107,7 @@ class Farminputtwo(models.Model):
     
 class Staff(models.Model):
     staff = models.OneToOneField(User,on_delete=models.CASCADE, null = True)   
-    mobile = models.IntegerField(default = 0, null=True, blank=True)
+    mobile = models.CharField(max_length= 20, null=True, blank=True)
     streetno = models.IntegerField(default = 0, null=True, blank=True)
     streetname = models.CharField(max_length= 60, null=True, blank=True)
     city = models.CharField(max_length= 60, null=True, blank=True)
@@ -116,8 +116,9 @@ class Staff(models.Model):
     current_salary = models.FloatField(default= 0, null=True, blank=True)
     gender = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
     marital_status = models.CharField(choices = MARITAL_STATUS, max_length = 2, null=True, blank=True)
-    children_no = models.IntegerField(default= 0, null=True, blank=True)
-    spouse_no = models.IntegerField( default= 0, null=True, blank=True)
+    is_active = models.BooleanField(default=False) 
+    emp_role =  models.CharField(max_length= 60, null=True, blank=True)
+    
     image = models.ImageField(default = 'avatar.jpg', upload_to = 'Profile_Images')
     class Meta:
         verbose_name = "Staff"
@@ -126,5 +127,16 @@ class Staff(models.Model):
     def __str__(self):
         return self.staff.username
 
-
+class RequestFarmrecordupdates(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # record_id = models.ForeignKey(Farminputs, on_delete=models.CASCADE)
+    record_id = models.IntegerField()
+    request = models.CharField(max_length= 60, null=True, blank=True)
+    rectified = models.BooleanField(default=False) 
+    created_at = models.DateTimeField(auto_now_add=True)  
+    class Meta:
+        verbose_name = "RequestFarmrecordupdates"
+        verbose_name_plural = "RequestFarmrecordupdates"  # Prevents Django from adding "s"
+    def __str__(self):
+        return self.user.username
 

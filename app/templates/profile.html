@@ -23,45 +23,51 @@
                         </thead>
                         <tbody>
                           <tr>
-                                <th scope="row">Name</th>
+                                <th scope="row">Name:</th>
                                 <td>{{ user.firstname }} {{ user.lastname }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Username</th>
+                                <th scope="row">Username:</th>
                                 <td>{{ user.username }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Email</th>
+                                <th scope="row">Email:</th>
                                 <td>{{ user.email }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Phone</th>
+                                <th scope="row">Phone:</th>
                                 <td>{{ user.staff.phone }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Address</th>
+                                <th scope="row">Address:</th>
                                 <td>{{ user.staff.streetno }} {{ user.staff.streetname }} {{ user.staff.city }}</td>
                             </tr>
                               <tr>
-                                <th scope="row">State</th>
+                                <th scope="row">State:</th>
+                                <td>{{ user.staff.state }} </td>
+                            </tr>
+                               <tr>
+                                <th scope="row">Marital Status</th>
                                 <td>{{ user.staff.state }} </td>
                             </tr>
                                 <tr>
-                                <th scope="row">Emp_Date</th>
+                                <th scope="row">Emp_Date:</th>
+                                <td>{{ user.staff.emp_date }} </td>
+                            </tr>
+                             <tr>
+                                <th scope="row">Emp_Role:</th>
+                                <td>{{ user.staff.emp_date }} </td>
+                            </tr>
+                              <tr>
+                                <th scope="row">is_Active:</th>
                                 <td>{{ user.staff.emp_date }} </td>
                             </tr>
                                <tr>
-                                <th scope="row">Current_Salary</th>
+                                <th scope="row">Current_Salary:</th>
                                 <td>{{ user.staff.current_salary }} </td>
                             </tr>
-                               <tr>
-                                <th scope="row">Children_Number</th>
-                                <td>{{ user.staff.children_no }} </td>
-                            </tr>
-                               <tr>
-                                <th scope="row">Spouse_no</th>
-                                <td>{{ user.staff.spouse_no }} </td>
-                            </tr>
+                           
+                            
                         </tbody>
                     </table>
                 </div>

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Category{% endblock title %}
+
+{% block main-content %}
+<div class = "container">
+<div class = "row my-3">
+<div class="col-sm-4 col-md-4 offset-sm-4">
+
+<div class = "border bg-white p-3">
+<h3> Delete Item </h3>
+<hr>
+<div class = "alert alert-danger">
+<h4> Are sure you want to delete ?</h4>
+</div>
+<form method = "POST">
+{% csrf_token %}
+{{ form }}
+
+<a class = "btn btn-danger btn-lg" href = "{% url 'updatefarmrecordlist' %}">Cancel</a>
+
+<input class = "btn btn-success btn-lg" type = "submit" value = "Confirm"/>
+</form>
+
+</div>
+</div>
+
+</div>
+
+{% endblock main-content%}
