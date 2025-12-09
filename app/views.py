@@ -239,6 +239,17 @@ def Requestfarmrecorddelete(request, pk):
     return render(request, "delete_requestupdate.html", locals())
 
 
+#update staff_profile
+@login_required(login_url = 'user_login') 
+def staff_profile_update(request):
+
+    context = {
+
+    }
+
+    return render(request, 'profile_update.html', context)
+
+
 
 
 
