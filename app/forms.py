@@ -4,6 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Submit
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Staff
 
 #Form to enter farm records
 class FarminputForm(forms.ModelForm):
@@ -70,10 +71,6 @@ class FarminputtwoForm(forms.ModelForm):
             self.fields['fertilizer_name'].required = False
             self.fields['avg_fertilizer'].required = False
             
-         
-
-
-
     # class LoginForm(AuthenticationForm):
     # username = UsernameField(widget=forms.TextInput(attrs={'autofocus ':'True', 'class':'form-control'}))
     # password = forms.CharField( widget=forms.PasswordInput(attrs={'autocomplete': 'current-password','class':'form-control'}))
@@ -93,3 +90,14 @@ class StaffRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class UserUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email','first_name', 'last_name' ]
+class StaffUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = ['mobile', 'streetno', 'streetname','city','state','current_salary',
+                  'gender','marital_status', 'emp_role','image']

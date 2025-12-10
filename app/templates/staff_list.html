@@ -50,27 +50,26 @@
     <table class="table table-bordered table-striped table-hover" id="farmTable">
       <thead class="table-dark">
         <tr>
-          <th>Emp Date</th>
-          <th>First Name</th>
+           <th >First Name</th>
           <th>Last Name</th>
-          <th class="fixed-col">Street Name</th>
-          <th>City</th>
-          <th>Salary </th>
-           <th>M. Status</th>
+          <th>Email</th>
+          <th>Active</th>
+          <th>Date_Joined</th>
+          
             <th>Activity</th>
          
         </tr>
       </thead>
       <tbody>
-      {% for item in venues %}
+      {% for item in item %}
         <tr>
-          <td>{{ item.created_at }}</td>
-          <td class="fixed-col">{{ item.avg_water}}</td>
-          <td class="fixed-col">{{item.avg_water}}</td>
-          <td class="fixed-col">{{item.avg_pesticide}}</td>
-          <td class="fixed-col">{{ item.seed_variety}}</td>
-          <td class="fixed-col">{{item.daily_observation }}</td>
-            <td>{{ item.user}}</td>
+     
+          <td>{{ item.first_name}}</td>
+          <td >{{item.last_name}}</td>
+          <td>{{item.email}}</td>
+          <td>{{ item.is_active}}</td>
+          <td >{{item.date_joined }}</td>
+          
         
           <td>
           {% if user.is_authenticated and user.is_staff and user.is_superuser %}

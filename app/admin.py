@@ -28,7 +28,7 @@ class FarmInputtwoModelAdmin(ImportExportModelAdmin):
 
 @admin.register(Staff)
 class StaffModelAdmin(ImportExportModelAdmin):
-    list_display = ('staff_id','staff','mobile', 'streetno', 'streetname', 'city', 'state', 'emp_date',
+    list_display = ('id','staff','mobile', 'streetno', 'streetname', 'city', 'state', 'emp_date',
                     'current_salary', 'marital_status')
 
 class UserResource(resources.ModelResource):

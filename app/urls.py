@@ -12,6 +12,7 @@ urlpatterns = [
     path("profile/", views.staff_profile, name="user_profile"),
     path("profile/update/", views.staff_profile_update, name="user_profile_update"),
     path("staff_list/", views.staff_list, name="staff_list"),
+   # path("staff_list/edit/<int:pk>", views.Staffedit, name="staff_edit"),
     path("registerstaff/", views.StaffRegistration.as_view(), name="registerstaff"),
     path('viewrecords/', views.records, name = "viewrecords"),
     path('farmrecords/delete/<int:pk>', views.farmrecords_delete, name = "farmrecordsdelete"),

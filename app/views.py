@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib import messages
 from django.http import JsonResponse
-from .forms import FarminputForm, StaffRegisterForm, FarminputtwoForm
-from .models import User
+from .forms import FarminputForm, StaffRegisterForm, FarminputtwoForm, UserUpdateForm,StaffUpdateForm
+from .models import User, Staff
 from django.contrib.auth import authenticate, logout, login
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator 
@@ -187,7 +187,14 @@ def staff_profile(request):
 ## List of staff 
 @login_required(login_url = 'user_login')
 def staff_list(request):
-    return render(request, 'staff_list.html')
+
+    item = User.objects.all().order_by('-date_joined')
+
+
+    context = {
+        'item':item
+    }
+    return render(request, 'staff_list.html', context)
 
 #Display Update request List
 @login_required(login_url = 'user_login')
@@ -242,8 +249,28 @@ def Requestfarmrecorddelete(request, pk):
 #update staff_profile
 @login_required(login_url = 'user_login') 
 def staff_profile_update(request):
+    staff_obj, created = Staff.objects.get_or_create(staff=request.user)
+    print("staff_obj", staff_obj)
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance = request.user)
+        s_form = StaffUpdateForm(request.POST, request.FILES, instance = staff_obj) #s_form stands for staff form relates to the model 
+        
+        if u_form.is_valid() and s_form.is_valid():
+            u_form.save()
+            s_form.save()
+            return redirect('user_profile')
+
+    else:
+    
+        u_form = UserUpdateForm(instance = request.user)
+        s_form = StaffUpdateForm(instance = staff_obj)
+        print("u_form",   u_form)
+        print("s_form", s_form)
+
 
     context = {
+        'u_form':u_form,
+        's_form':s_form,
 
     }
 
