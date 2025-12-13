@@ -11,6 +11,8 @@ from django.utils.dateparse import parse_date
 from datetime import datetime
 from django.utils import timezone
 from .models import Farminputs, Farminputtwo, RequestFarmrecordupdates
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request,"index.html", locals())
@@ -173,6 +175,7 @@ def farmrecords_edit(request, pk):
 
     return render(request, 'edit_farminginput.html', context)
 
+#To show record has been rectified.
 def updaterectified(record_id):
     # Get the Farminputs object
     item = Farminputs.objects.get(id=record_id)
@@ -189,8 +192,6 @@ def staff_profile(request):
 def staff_list(request):
 
     item = User.objects.all().order_by('-date_joined')
-
-
     context = {
         'item':item
     }
@@ -248,33 +249,48 @@ def Requestfarmrecorddelete(request, pk):
 
 #update staff_profile
 @login_required(login_url = 'user_login') 
-def staff_profile_update(request):
-    staff_obj, created = Staff.objects.get_or_create(staff=request.user)
-    print("staff_obj", staff_obj)
+def staff_profile_update(request, username):
+    # 1. Get the User
+    user_obj = get_object_or_404(User, username=username)
+
+    # 2. Get or create Staff linked to that User
+    staff_obj, created = Staff.objects.get_or_create(staff=user_obj)
+
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance = request.user)
-        s_form = StaffUpdateForm(request.POST, request.FILES, instance = staff_obj) #s_form stands for staff form relates to the model 
-        
+        u_form = UserUpdateForm(request.POST, instance=user_obj)
+        s_form = StaffUpdateForm(request.POST, request.FILES, instance=staff_obj)
+
         if u_form.is_valid() and s_form.is_valid():
             u_form.save()
             s_form.save()
-            return redirect('user_profile')
+            if request.user.is_superuser:
+                return redirect('staff_list')
+            else:
+                return redirect('user_profile')
+
 
     else:
-    
-        u_form = UserUpdateForm(instance = request.user)
-        s_form = StaffUpdateForm(instance = staff_obj)
-        print("u_form",   u_form)
-        print("s_form", s_form)
-
+        u_form = UserUpdateForm(instance=user_obj)
+        s_form = StaffUpdateForm(instance=staff_obj)
 
     context = {
-        'u_form':u_form,
-        's_form':s_form,
-
+        'u_form': u_form,
+        's_form': s_form,
     }
 
     return render(request, 'profile_update.html', context)
+
+@login_required(login_url = 'user_login')
+def staff_profile_delete(request, username):
+    item = User.objects.get(username=username)
+    # item_two= Staff.objects.get(username = username )
+    if request.method == 'POST':
+        item.delete()
+        # item_two.delete()
+        messages.success(request, "Record deleted Successfully.")
+        return redirect('staff_list')
+    return render(request, "delete_staffrecord.html", locals())
+
 
 
 
