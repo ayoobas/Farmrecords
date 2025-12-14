@@ -1,15 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+plant_choices = (
+    ('Tomatoes', 'Tomatoes'),
+    ('Bell_Pepper', 'Bell_Pepper'), ('Habanero', 'Habanero'),
+)
 stage_choices = (
 ('1', 'Nursery'),
-('2', 'Permanent-Space')
+('2', 'Permanent-Space'),
 )
 
 seed_choices = (
     ('PL', 'Platinum'),
     ('CB', 'Cobra-26-f1'),
+    ('BP', 'Bell_Pepper'),
 )
 fungicide_choices = (
     ('MA', 'Macozeb'),('FL','Flash-One'),('SA', 'Saaf'),('CH', 'Champ-DP'),
@@ -66,7 +70,8 @@ STATE_CHOICES = (
 )
 
 class Farminputs(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  
+    plant_choice =  models.CharField(choices = plant_choices  , max_length = 12, null=True, blank=True)
     plant_stage =  models.CharField(choices = stage_choices , max_length = 2, null=True, blank=True)
     plant_number = models.IntegerField(default= 0,null=True, blank=True)
     plant_age =  models.IntegerField(default= 0,null=True, blank=True)
@@ -74,9 +79,10 @@ class Farminputs(models.Model):
     cocopeat_weight = models.FloatField(default= 0, null=True, blank=True)
     avg_temp = models.FloatField(default= 0, null=True, blank=True)
     avg_water = models.FloatField(default= 0, null=True, blank=True)
-    seed_variety = models.CharField(choices = seed_choices, max_length = 2)
+    seed_variety = models.CharField(choices = seed_choices, max_length = 12)
     daily_observation = models.TextField( default = '')
-    # seed_image = models.ImageField(upload_to ='seeds')
+  
+    image = models.ImageField(default = 'avatar.jpg',  upload_to = 'Observation_Images')
     created_at = models.DateTimeField(auto_now_add=True)  
 
     class Meta:

@@ -21,7 +21,7 @@
           </div>
         </div>
 
-        <form method="POST" id="farmForm">
+        <form method="POST" id="farmForm" enctype="multipart/form-data">
           {% csrf_token %}
 
           {% if messages %}

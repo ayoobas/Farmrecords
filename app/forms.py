@@ -10,9 +10,9 @@ from .models import Staff
 class FarminputForm(forms.ModelForm):
     class Meta:
         model = Farminputs
-        fields = ['plant_stage','plant_number','plant_age','cocopeat_name','cocopeat_weight',
+        fields = ['plant_choice','plant_stage','plant_number','plant_age','cocopeat_name','cocopeat_weight',
                   'avg_temp','avg_water', 'seed_variety',
-                  'daily_observation']
+                  'daily_observation', 'image']
     
         widgets = {
             "daily_observation": forms.Textarea(attrs={"rows": 4}),  # 👈 make textarea taller
@@ -33,7 +33,7 @@ class FarminputForm(forms.ModelForm):
             self.fields['cocopeat_weight'].initial = None
             self.fields['avg_temp'].initial = None
             self.fields['avg_water'].initial = None
-         
+            self.fields['seed_variety'].required = False
 
 
 class FarminputtwoForm(forms.ModelForm):

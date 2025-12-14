@@ -66,7 +66,7 @@ def logout_user(request):
 @login_required(login_url='user_login')
 def register(request):
     if request.method == 'POST':
-        form = FarminputForm(request.POST)
+        form = FarminputForm(request.POST, request.FILES,)
         formtwo = FarminputtwoForm(request.POST)
 
         if form.is_valid() and formtwo.is_valid():
@@ -146,7 +146,7 @@ def farmrecords_edit(request, pk):
         item_two = None  # if it doesn't exist yet
     
     if request.method == 'POST':
-        form = FarminputForm(request.POST, instance=item)
+        form = FarminputForm(request.POST,  request.FILES,instance=item)
         formtwo = FarminputtwoForm(request.POST, instance=item_two)
 
         if form.is_valid() and formtwo.is_valid():
@@ -267,7 +267,6 @@ def staff_profile_update(request, username):
                 return redirect('staff_list')
             else:
                 return redirect('user_profile')
-
 
     else:
         u_form = UserUpdateForm(instance=user_obj)

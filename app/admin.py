@@ -11,8 +11,8 @@ admin.site.site_header = 'OBAZ FarmInput'
 # Register your models here.
 @admin.register(Farminputs)
 class FarmInputModelAdmin(ImportExportModelAdmin):
-    list_display = ('id','plant_stage','plant_age','avg_water' ,
-                     'avg_temp', 'seed_variety', 'daily_observation',  'user','created_at')
+    list_display = ('id','plant_choice','plant_stage','plant_age','avg_water' ,
+                     'avg_temp', 'seed_variety', 'daily_observation', 'image', 'user','created_at')
 
 #Register RequestFarmUpdate records
 @admin.register(RequestFarmrecordupdates)
