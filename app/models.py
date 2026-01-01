@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 plant_choices = (
     ('Tomatoes', 'Tomatoes'),
@@ -13,7 +15,9 @@ stage_choices = (
 seed_choices = (
     ('PL', 'Platinum'),
     ('CB', 'Cobra-26-f1'),
-    ('BP', 'Bell_Pepper'),
+    ('SM', 'SIMBAD'),
+    ('NT', 'NIKITA'),
+     ('OT', 'OTHERS'),
 )
 fungicide_choices = (
     ('MA', 'Macozeb'),('FL','Flash-One'),('SA', 'Saaf'),('CH', 'Champ-DP'),
@@ -64,10 +68,16 @@ MARITAL_STATUS = (
 )
 
 #create state choices
-STATE_CHOICES = (
-('Lagos','Lagos'),('Ondo','Ondo'),('Ekiti','Ekiti'),('Osun', 'Osun'),('Oyo', 'Oyo'),
-('Kwara','Kwara'),('Kano','Kano'),('Rivers','Rivers'),
-)
+# STATE_CHOICES = (
+# ('Lagos','Lagos'),('Ondo','Ondo'),('Ekiti','Ekiti'),('Osun', 'Osun'),('Oyo', 'Oyo'),
+# ('Kwara','Kwara'),('Kano','Kano'),('Rivers','Rivers'),
+# )
+
+
+def validate_image_size(image):
+    max_size = 0.5 * 1024 * 1024  # 1 MB
+    if image.size > max_size:
+        raise ValidationError("Image file too large (max 500KB allowed).")
 
 class Farminputs(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
@@ -80,10 +90,12 @@ class Farminputs(models.Model):
     avg_temp = models.FloatField(default= 0, null=True, blank=True)
     avg_water = models.FloatField(default= 0, null=True, blank=True)
     seed_variety = models.CharField(choices = seed_choices, max_length = 12)
+    seed_variety_other = models.CharField( max_length=30, blank=True, null=True)
     daily_observation = models.TextField( default = '')
   
-    image = models.ImageField(default = 'avatar.jpg',  upload_to = 'Observation_Images')
-    created_at = models.DateTimeField(auto_now_add=True)  
+    image = models.ImageField(default = 'avatar.jpg', validators=[validate_image_size],  upload_to = 'Observation_Images')
+  
+    created_at = models.DateField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Farminput"
@@ -117,7 +129,8 @@ class Staff(models.Model):
     streetno = models.IntegerField(default = 0, null=True, blank=True)
     streetname = models.CharField(max_length= 60, null=True, blank=True)
     city = models.CharField(max_length= 60, null=True, blank=True)
-    state = models.CharField(choices = STATE_CHOICES, max_length = 20)
+    state = models.CharField(max_length= 60, null=True, blank=True)
+    
     emp_date = models.DateField(null=True, blank=True)
     current_salary = models.FloatField(default= 0, null=True, blank=True)
     gender = models.CharField(choices = GENDER_CHOICES, max_length = 2, null=True, blank=True)
@@ -125,7 +138,7 @@ class Staff(models.Model):
     is_active = models.BooleanField(default=False) 
     emp_role =  models.CharField(max_length= 60, null=True, blank=True)
 
-    image = models.ImageField(default = 'avatar.jpg', upload_to = 'Profile_Images')
+    image = models.ImageField(default = 'avatar.jpg', validators=[validate_image_size],  upload_to = 'Profile_Images')
     class Meta:
         verbose_name = "Staff"
         verbose_name_plural = "Staff"  # Prevents Django from adding "s"
@@ -139,7 +152,7 @@ class RequestFarmrecordupdates(models.Model):
     record_id = models.IntegerField()
     request = models.CharField(max_length= 60, null=True, blank=True)
     rectified = models.BooleanField(default=False) 
-    created_at = models.DateTimeField(auto_now_add=True)  
+    created_at = models.DateField(auto_now_add=True)  
     class Meta:
         verbose_name = "RequestFarmrecordupdates"
         verbose_name_plural = "RequestFarmrecordupdates"  # Prevents Django from adding "s"

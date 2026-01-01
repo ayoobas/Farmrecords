@@ -66,16 +66,22 @@ def logout_user(request):
 @login_required(login_url='user_login')
 def register(request):
     if request.method == 'POST':
-        form = FarminputForm(request.POST, request.FILES,)
+        form = FarminputForm(request.POST, request.FILES)
         formtwo = FarminputtwoForm(request.POST)
 
         if form.is_valid() and formtwo.is_valid():
-            # Save Farminputs first
             farminput = form.save(commit=False)
             farminput.user = request.user
+
+            # ✅ Correct handling of "Others"
+            if form.cleaned_data.get('seed_variety') == 'OT':
+                farminput.seed_variety_other = form.cleaned_data.get('seed_variety_other')
+               
+            else:
+                farminput.seed_variety_other = ''
+
             farminput.save()
 
-            # Link second form
             formtwo_instance = formtwo.save(commit=False)
             formtwo_instance.FI = farminput
             formtwo_instance.save()
@@ -86,8 +92,8 @@ def register(request):
         form = FarminputForm()
         formtwo = FarminputtwoForm()
 
-    context = {'form': form, 'formtwo': formtwo}
-    return render(request, 'inputregister.html', context)
+    return render(request, 'inputregister.html', {'form': form, 'formtwo': formtwo})
+
 
 
 class StaffRegistration(View):
@@ -137,27 +143,36 @@ def farmrecords_delete(request, pk):
 #To edit records
 @login_required(login_url = 'user_login')
 def farmrecords_edit(request, pk):
-    # Get the Farminputs record
     item = Farminputs.objects.get(id=pk)
-    # Try to get the related Farminputtwo (if it exists)
+
     try:
         item_two = Farminputtwo.objects.get(FI=item)
     except Farminputtwo.DoesNotExist:
-        item_two = None  # if it doesn't exist yet
-    
+        item_two = None
+
     if request.method == 'POST':
-        form = FarminputForm(request.POST,  request.FILES,instance=item)
+        form = FarminputForm(request.POST, request.FILES, instance=item)
         formtwo = FarminputtwoForm(request.POST, instance=item_two)
 
         if form.is_valid() and formtwo.is_valid():
-            # Save Farminputs first
-            updated_item = form.save()
+            # Save Farminputs safely
+            updated_item = form.save(commit=False)
+
+            # ✅ ENSURE seed_variety_other is saved
+            if updated_item.seed_variety == 'OT':
+                updated_item.seed_variety_other = form.cleaned_data.get(
+                    'seed_variety_other'
+                )
+            else:
+                updated_item.seed_variety_other = ''
+
+            updated_item.save()
+
             # Save or create Farminputtwo
             updated_item_two = formtwo.save(commit=False)
-            updated_item_two.FI = updated_item  # Link to Farminputs
+            updated_item_two.FI = updated_item
             updated_item_two.save()
 
-            #update RequestFarmrecordupdate table
             updaterectified(item.id)
 
             messages.success(request, "✅ Record updated successfully.")
@@ -170,10 +185,11 @@ def farmrecords_edit(request, pk):
     context = {
         'form': form,
         'formtwo': formtwo,
-        'itemid':item.id
+        'itemid': item.id
     }
 
     return render(request, 'edit_farminginput.html', context)
+
 
 #To show record has been rectified.
 def updaterectified(record_id):

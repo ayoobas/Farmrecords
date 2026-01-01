@@ -10,31 +10,63 @@ from .models import Staff
 class FarminputForm(forms.ModelForm):
     class Meta:
         model = Farminputs
-        fields = ['plant_choice','plant_stage','plant_number','plant_age','cocopeat_name','cocopeat_weight',
-                  'avg_temp','avg_water', 'seed_variety',
-                  'daily_observation', 'image']
-    
+        fields = [
+            'plant_choice','plant_stage','plant_number','plant_age',
+            'cocopeat_name','cocopeat_weight',
+            'avg_temp','avg_water',
+            'seed_variety','seed_variety_other',
+            'daily_observation','image','created_at'
+        ]
+
         widgets = {
-            "daily_observation": forms.Textarea(attrs={"rows": 4}),  # 👈 make textarea taller
-       
+            "daily_observation": forms.Textarea(attrs={"rows": 4}),
+            "created_at": forms.DateInput(attrs={
+                "type": "date",
+                "class": "form-control"
+            }),
+            "seed_variety_other": forms.TextInput(attrs={
+                "placeholder": "Please specify the seed variety",
+                # "style": "display:none;"
+            }),
         }
+
         labels = {
-            "plant_age":"plant_age (days)",
-            "cocopeat_weight": "Cocopeat weight (kg)",  # 👈 adds (kg) to the field label
-             "avg_temp": "avg_temp (°C)",
-             "avg_water":"avg_water (L)",
+            "plant_age": "Plant age (days)",
+            "cocopeat_weight": "Cocopeat weight (kg)",
+            "avg_temp": "Average temperature (°C)",
+            "avg_water": "Average water (L)",
+            # "image":"image(max 500KB allowed)",
+            "created_at": "Observation Date",
+             "seed_variety_other": "", 
         }
+
+    def clean(self):   
+        cleaned_data = super().clean()
+        seed = cleaned_data.get('seed_variety')
+        other = cleaned_data.get('seed_variety_other')
+
+    # If "Other (OT)" is selected, require the extra input
+        if seed == 'OT' and not other:
+            self.add_error(
+            'seed_variety_other',
+            'Please specify the seed variety.'
+        )
+
+    # If NOT "Other", clear the extra field
+        if seed != 'OT':
+            cleaned_data['seed_variety_other'] = ''
+
+        return cleaned_data
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Only show placeholder (no starting 0)
-        if not self.instance or not self.instance.pk:
-            self.fields['plant_number'].initial = None
-            self.fields['plant_age'].initial = None
-            self.fields['cocopeat_weight'].initial = None
-            self.fields['avg_temp'].initial = None
-            self.fields['avg_water'].initial = None
-            self.fields['seed_variety'].required = False
 
+        if not self.instance.pk:
+            for field in ['plant_number', 'plant_age', 'cocopeat_weight', 'avg_temp', 'avg_water']:
+                self.fields[field].initial = None
+
+        self.fields['seed_variety'].required = False
+#For Farminputtwoform
 
 class FarminputtwoForm(forms.ModelForm):
     class Meta:
@@ -43,11 +75,11 @@ class FarminputtwoForm(forms.ModelForm):
                   'micronutrient_name', 'avg_micronutrient','fertilizer_name', 
                   'avg_fertilizer']
         labels = {
-              "avg_fungicide":"avg_fungicide (L)",
-              "avg_insecticide":"avg_insecticide (L)",
-              "avg_micronutrient":"avg_micronutrient (L)",
+              "avg_fungicide":"avg_fungicide (ml)",
+              "avg_insecticide":"avg_insecticide (ml)",
+              "avg_micronutrient":"avg_micronutrient (ml)",
               "avg_fertilizer":"avg_fertilizer (kg)",
-              "avg_herbicide":"avg_herbicide (L)"
+              "avg_herbicide":"avg_herbicide (ml)"
           }
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -92,12 +124,17 @@ class StaffRegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
+
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email','first_name', 'last_name' ]
+
 class StaffUpdateForm(forms.ModelForm):
     class Meta:
         model = Staff
         fields = ['mobile', 'streetno', 'streetname','city','state','current_salary',
                   'gender','marital_status', 'emp_role','image']
+        # labels = {
+        #     "image":"image (max 500KB allowed)",
+        #         }

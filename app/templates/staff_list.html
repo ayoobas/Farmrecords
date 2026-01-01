@@ -75,7 +75,7 @@
         
           <td>
           {% if user.is_authenticated and user.is_staff and user.is_superuser %}
-          <a  class="btn btn-danger"  href = "{% url 'user_profile_delete' item.username %}" >Delete</a>
+          {% comment %} <a  class="btn btn-danger"  href = "{% url 'user_profile_delete' item.username %}" >Delete</a>  {% endcomment %}
           {% endif %}
           <a type="button" class="btn btn-success" href = "{% url 'user_profile_update' item.username %}">View More</a> 
           

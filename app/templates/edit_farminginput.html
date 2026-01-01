@@ -117,6 +117,30 @@
 
   // Run when dropdown changes
   stageSelect.addEventListener('change', toggleFields);
+  
+  //To hide and show other seed varieties
+  const seedSelect = document.getElementById("id_seed_variety");
+    const otherInput = document.getElementById("id_seed_variety_other");
+
+    if (!seedSelect || !otherInput) return;
+
+    // Find crispy wrapper (usually .form-group or .mb-3)
+    const otherWrapper = otherInput.closest(".mb-3, .form-group");
+
+    function toggleOtherField() {
+        if (seedSelect.value === "OT") {
+            otherWrapper.style.display = "block";
+        } else {
+            otherWrapper.style.display = "none";
+            otherInput.value = "";
+        }
+    }
+
+    // Run on load (important for edit forms)
+    toggleOtherField();
+
+    // Run when selection changes
+    seedSelect.addEventListener("change", toggleOtherField);
 });
 </script>
 <br/><br/>
