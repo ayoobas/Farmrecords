@@ -13,10 +13,10 @@ stage_choices = (
 )
 
 seed_choices = (
-    ('PL', 'Platinum'),
-    ('CB', 'Cobra-26-f1'),
-    ('SM', 'SIMBAD'),
-    ('NT', 'NIKITA'),
+    ('Platinum', 'Platinum'),
+    ('Cobra-26-f1', 'Cobra-26-f1'),
+    ('SIMBAD', 'SIMBAD'),
+    ('NIKITA', 'NIKITA'),
      ('OT', 'OTHERS'),
 )
 fungicide_choices = (

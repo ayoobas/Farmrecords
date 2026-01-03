@@ -139,6 +139,10 @@ function filterByDate() {
  // csv download
  
 }
+
+function downloadTable() {
+    window.location.href = "{% url 'download_farm_records_csv' %}";
+}
 </script>
 
 {% endblock main-content %}

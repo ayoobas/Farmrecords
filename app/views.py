@@ -13,6 +13,10 @@ from django.utils import timezone
 from .models import Farminputs, Farminputtwo, RequestFarmrecordupdates
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
+import csv
+from django.http import HttpResponse
+from django.db import connection
+
 
 def home(request):
     return render(request,"index.html", locals())
@@ -307,8 +311,42 @@ def staff_profile_delete(request, username):
     return render(request, "delete_staffrecord.html", locals())
 
 
+#To download csv file for records
+@login_required(login_url = 'user_login')
+def download_farm_records_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="farm_records.csv"'
 
+    writer = csv.writer(response)
 
+    # CSV header
+    writer.writerow([
+        'Date',   'Plant', 'Avg Temp', 'Stage', 'Plant Age',
+        'Seed Variety', 'Observation','fungicide_name','avg_fungicide','insecticide_name',
+        'avg_insecticide','herbicide_name','avg_herbicide','micronutrient_name','avg_micronutrient',
+        'fertilizer_name','avg_fertilizer' 'Staff'
+    ])
+
+    # 🔥 RAW SQL JOIN
+    query = """
+        SELECT  af.created_at, af.plant_choice, af.avg_temp,  af.plant_stage,
+            af.plant_age, af.seed_variety,  af.daily_observation, afa.fungicide_name,afa.avg_fungicide,
+            afa.insecticide_name,afa.avg_insecticide,afa.herbicide_name,afa.avg_herbicide, afa.micronutrient_name,
+            afa.avg_micronutrient, afa.fertilizer_name, afa.avg_fertilizer,
+            auth_user.username  FROM app_farminputs af
+                INNER JOIN app_farminputtwo afa ON af.id = afa.fi_id
+        INNER JOIN auth_user ON af.user_id = auth_user.id
+        ORDER BY af.created_at DESC
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        rows = cursor.fetchall()
+
+        for row in rows:
+            writer.writerow(row)
+
+    return response
 
 
 

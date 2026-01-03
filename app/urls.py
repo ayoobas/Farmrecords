@@ -20,6 +20,7 @@ urlpatterns = [
     path('farmrecords/edit/<int:pk>', views.farmrecords_edit, name = "farmrecordsedit"),
     path('requestupdate/<int:pk>', views.Requestupdate, name="requestupdate"),
     path('requestupdate/delete/<int:pk>', views.Requestfarmrecorddelete, name = "requestupdatedelete"),
+    path('download/farm-records/', views.download_farm_records_csv, name='download_farm_records_csv'),
 
     path("updatefarmrecordlist/", views.updatefarmrecordlist, name="updatefarmrecordlist"),
 
