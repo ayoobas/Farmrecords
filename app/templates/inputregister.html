@@ -131,7 +131,42 @@
     // Run when selection changes
     seedSelect.addEventListener("change", toggleOtherField);
 
+
+    //TO toggle show and hide other fungicide
+    function toggleOther(selectId, otherId) {
+        const select = document.getElementById(selectId);
+        const other = document.getElementById(otherId);
+
+        if (!select || !other) return;
+
+        // Crispy wraps fields, so hide the whole form-group
+        const otherWrapper = other.closest(".form-group") || other.parentElement;
+
+        function update() {
+            if (select.value === "OT") {
+                otherWrapper.style.display = "block";
+            } else {
+                otherWrapper.style.display = "none";
+                other.value = "";
+            }
+        }
+
+        select.addEventListener("change", update);
+        update(); // run on page load (important for edit / validation errors)
+    }
+
+    /* STEP 1 */
+    toggleOther("id_fungicide_name", "id_fungicide_other");
+    toggleOther("id_insecticide_name", "id_insecticide_other");
+    toggleOther("id_herbicide_name", "id_herbicide_other");
+
+    /* STEP 2 */
+    toggleOther("id_micronutrient_name", "id_micronutrient_other");
+    toggleOther("id_fertilizer_name", "id_fertilizer_other");
+
 });
+
+
 
 
 

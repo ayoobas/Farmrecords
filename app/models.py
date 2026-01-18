@@ -22,17 +22,17 @@ seed_choices = (
 fungicide_choices = (
     ('MA', 'Macozeb'),('FL','Flash-One'),('SA', 'Saaf'),('CH', 'Champ-DP'),
     ('CO', 'Controphyl'),('FS','Five-Star'), ('RG', 'Ridomil-Gold'), ('CT', 'CDN-Thunda'),
-        ('JM', 'Jumper'),
+        ('JM', 'Jumper'),  ('OT', 'OTHERS'),
 )
 insecticide_choices = (
     ('LG', 'Laraforce-Gold'),('TI', 'Tihan'), ('VA','Vanguish'),('BE','Belt-Expert'),
-    ('AM','Ampligo'),('AL', 'Allakat'),('IM','Imiforce'),('DO','Dominator'),
+    ('AM','Ampligo'),('AL', 'Allakat'),('IM','Imiforce'),('DO','Dominator'),  ('OT', 'OTHERS'),
 )
 micronutrient_choices = (
     ('AG','Agrovert20-20-20'),('AV','Agrovert6-13-46'),('YA','Yara-Vita15000'),
     ('SU','Super-Fruit-Setting'),('TF','Tecamin-Flower'),('AR','Agriful'),('AP', 'Agriphyt'),
-    ('AM','Agric-Max'),('PN','Potassium-Nitrate-Multi-k'),('CN', 'Calcium-Nitrate'),
-    ('MS', 'Magnium-Sulphate'),
+    ('AM','Agric-Max'),('PN','Potassium-Nitrate-Multi-k'),('CN', 'Calcium-Nitrate'), 
+    ('MS', 'Magnium-Sulphate'), ('OT', 'OTHERS'),
 )
 
 fertilizer_choices = (
@@ -41,14 +41,14 @@ fertilizer_choices = (
     ('NPK15', 'NPK15-15-15'),
     ('NPK20', 'NPK20-10-10'),
     ('NPK10', 'NPK10-20-10'),
-    ('SSP','SSP' ),
+    ('SSP','SSP' ), ('OT', 'OTHERS'),
 )
 
 herbicides_choices = (
     ('FU','Force-Up'),
     ('BF','Bara-Force'),
     ('WC','Weed-Crusher'),
-    ('SL', 'Slasher'),
+    ('SL', 'Slasher'), ('OT', 'OTHERS'),
 
 )
 
@@ -79,6 +79,10 @@ def validate_image_size(image):
     if image.size > max_size:
         raise ValidationError("Image file too large (max 500KB allowed).")
 
+def validate_not_future(value):
+    if value > timezone.now().date():
+        raise ValidationError("Date cannot be in the future.")
+
 class Farminputs(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  
     plant_choice =  models.CharField(choices = plant_choices  , max_length = 12, null=True, blank=True)
@@ -95,7 +99,7 @@ class Farminputs(models.Model):
   
     image = models.ImageField(default = 'avatar.jpg', validators=[validate_image_size],  upload_to = 'Observation_Images')
   
-    created_at = models.DateField(null=True, blank=True)
+    created_at = models.DateField(null=True, blank=True, validators=[validate_not_future])
 
     class Meta:
         verbose_name = "Farminput"
@@ -107,15 +111,32 @@ class Farminputs(models.Model):
 class Farminputtwo(models.Model):
     FI = models.ForeignKey(Farminputs, on_delete=models.CASCADE, related_name='chemicals') 
     fungicide_name = models.CharField(choices = fungicide_choices, max_length = 2,  null=True, blank=True)
+    fungicide_other = models.CharField( max_length=30, blank=True, null=True)
     avg_fungicide = models.FloatField(default= 0, null=True, blank=True)
+    
     insecticide_name = models.CharField(choices = insecticide_choices, max_length = 2)
+    insecticide_other = models.CharField( max_length=30, blank=True, null=True)
     avg_insecticide = models.FloatField(default= 0, null=True, blank=True)
+   
+
     herbicide_name = models.CharField(choices = herbicides_choices, max_length = 2)
+    herbicide_other = models.CharField( max_length=30, blank=True, null=True)
     avg_herbicide = models.FloatField(default= 0, null=True, blank=True)
+    
+   
+    
     micronutrient_name = models.CharField(choices = micronutrient_choices, max_length = 2)
+    micronutrient_other = models.CharField( max_length=30, blank=True, null=True)
     avg_micronutrient = models.FloatField(default= 0, null=True, blank=True)
+    
+    
+   
     fertilizer_name = models.CharField(choices = fertilizer_choices, max_length = 7)
+    fertilizer_other = models.CharField( max_length=30, blank=True, null=True)
     avg_fertilizer = models.FloatField(default= 0, null=True, blank=True) # in kilograms per hectare(kg/ha)
+    
+  
+
     class Meta:
         verbose_name = "Farminputtwo"
         verbose_name_plural = "Farminputtwo"  # Prevents Django from adding "s"

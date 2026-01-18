@@ -74,29 +74,47 @@ def register(request):
         formtwo = FarminputtwoForm(request.POST)
 
         if form.is_valid() and formtwo.is_valid():
+
+            # ---------- FORM ONE ----------
             farminput = form.save(commit=False)
             farminput.user = request.user
 
-            # ✅ Correct handling of "Others"
             if form.cleaned_data.get('seed_variety') == 'OT':
                 farminput.seed_variety_other = form.cleaned_data.get('seed_variety_other')
-               
             else:
-                farminput.seed_variety_other = ''
+                farminput.seed_variety_other = None
 
             farminput.save()
 
+            # ---------- FORM TWO ----------
             formtwo_instance = formtwo.save(commit=False)
             formtwo_instance.FI = farminput
+
+            # Handle all "OTHERS" fields safely
+            others_map = [
+                ('fungicide_name', 'fungicide_other'),
+                ('insecticide_name', 'insecticide_other'),
+                ('herbicide_name', 'herbicide_other'),
+                ('micronutrient_name', 'micronutrient_other'),
+                ('fertilizer_name', 'fertilizer_other'),
+            ]
+
+            for name_field, other_field in others_map:
+                if formtwo.cleaned_data.get(name_field) != 'OT':
+                    setattr(formtwo_instance, other_field, None)
+
             formtwo_instance.save()
 
             messages.success(request, "✅ Farm record added successfully!")
             return redirect('viewrecords')
+
     else:
         form = FarminputForm()
         formtwo = FarminputtwoForm()
 
-    return render(request, 'inputregister.html', {'form': form, 'formtwo': formtwo})
+    return render(request, 'inputregister.html', {'form': form, 'formtwo': formtwo} )
+
+
 
 
 
@@ -159,22 +177,35 @@ def farmrecords_edit(request, pk):
         formtwo = FarminputtwoForm(request.POST, instance=item_two)
 
         if form.is_valid() and formtwo.is_valid():
-            # Save Farminputs safely
+
+            # ---------- FORM ONE ----------
             updated_item = form.save(commit=False)
 
-            # ✅ ENSURE seed_variety_other is saved
             if updated_item.seed_variety == 'OT':
                 updated_item.seed_variety_other = form.cleaned_data.get(
                     'seed_variety_other'
                 )
             else:
-                updated_item.seed_variety_other = ''
+                updated_item.seed_variety_other = None
 
             updated_item.save()
 
-            # Save or create Farminputtwo
+            # ---------- FORM TWO ----------
             updated_item_two = formtwo.save(commit=False)
             updated_item_two.FI = updated_item
+
+            others_map = [
+                ('fungicide_name', 'fungicide_other'),
+                ('insecticide_name', 'insecticide_other'),
+                ('herbicide_name', 'herbicide_other'),
+                ('micronutrient_name', 'micronutrient_other'),
+                ('fertilizer_name', 'fertilizer_other'),
+            ]
+
+            for name_field, other_field in others_map:
+                if formtwo.cleaned_data.get(name_field) != 'OT':
+                    setattr(updated_item_two, other_field, None)
+
             updated_item_two.save()
 
             updaterectified(item.id)
@@ -193,6 +224,7 @@ def farmrecords_edit(request, pk):
     }
 
     return render(request, 'edit_farminginput.html', context)
+
 
 
 #To show record has been rectified.
